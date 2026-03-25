@@ -1,0 +1,38 @@
+aid: betterstack
+name: Better Stack
+description: >-
+  Better Stack is an observability platform combining uptime monitoring, incident management, and log management with status pages and on-call scheduling.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Observability
+  - Uptime Monitoring
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/betterstack/refs/heads/main/apis.yml
+created: '2026-03-25'
+modified: '2026-03-25'
+specificationVersion: '0.19'
+apis:
+  - aid: betterstack:betterstack
+    name: Better Stack
+    description: >-
+      Better Stack is an observability platform combining uptime monitoring, incident management, and log management with status pages and on-call scheduling.
+    humanURL: https://betterstack.com
+    tags:
+      - Observability
+      - Uptime Monitoring
+    properties:
+      - type: Documentation
+        url: https://betterstack.com/docs
+      - type: GitHub Repository
+        url: https://github.com/BetterStackHQ
+common:
+  - type: Website
+    url: https://betterstack.com
+  - type: Documentation
+    url: https://betterstack.com/docs
+  - type: GitHub Organization
+    url: https://github.com/BetterStackHQ
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
