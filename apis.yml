@@ -46,6 +46,8 @@ apis:
         url: >-
           https://raw.githubusercontent.com/api-evangelist/better-stack/refs/heads/main/openapi/better-stack-openapi.yml
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/betterstack
   - type: Portal
     url: https://betterstack.com/docs/
   - type: GettingStarted
