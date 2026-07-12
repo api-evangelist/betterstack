@@ -46,6 +46,14 @@ apis:
         url: >-
           https://raw.githubusercontent.com/api-evangelist/better-stack/refs/heads/main/openapi/better-stack-openapi.yml
 common:
+  - type: TrustCenter
+    url: security/betterstack-trust-center.yml
+  - type: VulnerabilityDisclosure
+    url: security/betterstack-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/betterstack-domain-security.yml
+  - type: Authentication
+    url: authentication/betterstack-authentication.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/betterstack
   - type: Portal

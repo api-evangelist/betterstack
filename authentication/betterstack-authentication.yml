@@ -1,0 +1,15 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/betterstack-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: |-
+    Bearer token. Provide either a Global API Token (account-wide) or a
+    team-scoped Uptime API Token. Issued from Better Stack → API tokens.
+  sources:
+  - openapi/betterstack-openapi.yml
