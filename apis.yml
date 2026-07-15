@@ -46,6 +46,8 @@ apis:
         url: >-
           https://raw.githubusercontent.com/api-evangelist/better-stack/refs/heads/main/openapi/better-stack-openapi.yml
 common:
+  - type: AgenticAccess
+    url: agentic-access/betterstack-agentic-access.yml
   - type: TrustCenter
     url: security/betterstack-trust-center.yml
   - type: VulnerabilityDisclosure
