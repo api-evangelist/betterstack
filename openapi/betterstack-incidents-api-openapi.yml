@@ -1,0 +1,203 @@
+openapi: 3.1.0
+info:
+  title: Better Stack Uptime Heartbeats Incidents API
+  description: 'Programmatic access to Better Stack''s uptime monitoring, heartbeat monitoring,
+
+    incident management, status pages, escalation policies, and on-call surfaces.
+
+    Responses follow the JSON:API specification.
+
+
+    This document is a best-effort reconstruction from Better Stack''s public
+
+    documentation and is not exhaustive. Refer to
+
+    https://betterstack.com/docs/uptime/api/ for authoritative reference.
+
+    '
+  version: 2.0.0
+  contact:
+    name: Better Stack
+    url: https://betterstack.com/docs/uptime/api/getting-started/
+  license:
+    name: Proprietary
+servers:
+- url: https://uptime.betterstack.com/api/v2
+  description: Better Stack Uptime API (v2 surface — monitors, heartbeats, status pages, on-call)
+- url: https://uptime.betterstack.com/api/v3
+  description: Better Stack Uptime API (v3 surface — incidents)
+security:
+- bearerAuth: []
+tags:
+- name: Incidents
+paths:
+  /incidents:
+    servers:
+    - url: https://uptime.betterstack.com/api/v3
+    get:
+      tags:
+      - Incidents
+      summary: List incidents
+      operationId: listIncidents
+      parameters:
+      - $ref: '#/components/parameters/PerPage'
+      - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: A page of incidents.
+    post:
+      tags:
+      - Incidents
+      summary: Create incident
+      operationId: createIncident
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncidentCreate'
+      responses:
+        '201':
+          description: Created incident.
+  /incidents/{id}:
+    servers:
+    - url: https://uptime.betterstack.com/api/v3
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      tags:
+      - Incidents
+      summary: Get incident
+      operationId: getIncident
+      responses:
+        '200':
+          description: Incident.
+    delete:
+      tags:
+      - Incidents
+      summary: Remove incident
+      operationId: deleteIncident
+      responses:
+        '204':
+          description: Removed.
+  /incidents/{id}/timeline:
+    servers:
+    - url: https://uptime.betterstack.com/api/v3
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      tags:
+      - Incidents
+      summary: List incident timeline
+      operationId: getIncidentTimeline
+      responses:
+        '200':
+          description: Timeline entries.
+  /incidents/{id}/acknowledge:
+    servers:
+    - url: https://uptime.betterstack.com/api/v3
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    post:
+      tags:
+      - Incidents
+      summary: Acknowledge incident
+      operationId: acknowledgeIncident
+      responses:
+        '200':
+          description: Acknowledged.
+  /incidents/{id}/resolve:
+    servers:
+    - url: https://uptime.betterstack.com/api/v3
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    post:
+      tags:
+      - Incidents
+      summary: Resolve incident
+      operationId: resolveIncident
+      responses:
+        '200':
+          description: Resolved.
+  /incidents/{id}/reopen:
+    servers:
+    - url: https://uptime.betterstack.com/api/v3
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    post:
+      tags:
+      - Incidents
+      summary: Reopen incident
+      operationId: reopenIncident
+      responses:
+        '200':
+          description: Reopened.
+  /incidents/{id}/escalate:
+    servers:
+    - url: https://uptime.betterstack.com/api/v3
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    post:
+      tags:
+      - Incidents
+      summary: Escalate incident
+      operationId: escalateIncident
+      responses:
+        '200':
+          description: Escalated.
+components:
+  parameters:
+    PerPage:
+      name: per_page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 50
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+  schemas:
+    IncidentCreate:
+      type: object
+      required:
+      - summary
+      - requester_email
+      properties:
+        summary:
+          type: string
+        description:
+          type: string
+        requester_email:
+          type: string
+          format: email
+        call:
+          type: boolean
+        sms:
+          type: boolean
+        email:
+          type: boolean
+        push:
+          type: boolean
+        team_wait:
+          type: integer
+        policy_id:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Bearer token. Provide either a Global API Token (account-wide) or a
+
+        team-scoped Uptime API Token. Issued from Better Stack → API tokens.
+
+        '
