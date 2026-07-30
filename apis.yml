@@ -7,7 +7,20 @@ description: >-
   for the better-stack repository. See https://github.com/api-evangelist/better-stack
   for the full API profile with OpenAPI specs, capabilities, and vocabulary.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/betterstack.png
 tags:
   - Observability
   - Uptime Monitoring
@@ -22,29 +35,62 @@ created: '2026-03-25'
 modified: '2026-04-19'
 specificationVersion: '0.19'
 apis:
-  - aid: betterstack:betterstack-api
-    name: Better Stack API
-    description: >-
-      The Better Stack API provides programmatic access to uptime monitoring,
-      heartbeat monitoring, incident management, status pages, escalation
-      policies, and team management. It follows the JSON:API specification
-      and uses Bearer token authentication.
-    humanURL: https://betterstack.com/docs/uptime/api/getting-started/
-    baseURL: https://uptime.betterstack.com/api/v2
-    tags:
-      - Monitoring
-      - Incidents
-      - Uptime
-      - Heartbeats
-      - Status Pages
-    properties:
-      - type: Documentation
-        url: https://betterstack.com/docs/uptime/api/getting-started/
-      - type: APIReference
-        url: https://betterstack.com/docs/uptime/api/monitors/
-      - type: OpenAPI
-        url: >-
-          https://raw.githubusercontent.com/api-evangelist/better-stack/refs/heads/main/openapi/better-stack-openapi.yml
+- aid: betterstack:betterstack-heartbeats-api
+  name: Better Stack Heartbeats API
+  description: The Heartbeats API from Better Stack — 3 operation(s) for heartbeats.
+  humanURL: https://betterstack.com/docs/uptime/api/getting-started/
+  baseURL: https://uptime.betterstack.com/api/v2
+  tags:
+  - Heartbeats
+  properties:
+  - type: OpenAPI
+    url: openapi/betterstack-heartbeats-api-openapi.yml
+  - type: Documentation
+    url: https://betterstack.com/docs/uptime/api/getting-started/
+  - type: APIReference
+    url: https://betterstack.com/docs/uptime/api/monitors/
+- aid: betterstack:betterstack-incidents-api
+  name: Better Stack Incidents API
+  description: The Incidents API from Better Stack — 7 operation(s) for incidents.
+  humanURL: https://betterstack.com/docs/uptime/api/getting-started/
+  baseURL: https://uptime.betterstack.com/api/v2
+  tags:
+  - Incidents
+  properties:
+  - type: OpenAPI
+    url: openapi/betterstack-incidents-api-openapi.yml
+  - type: Documentation
+    url: https://betterstack.com/docs/uptime/api/getting-started/
+  - type: APIReference
+    url: https://betterstack.com/docs/uptime/api/monitors/
+- aid: betterstack:betterstack-monitors-api
+  name: Better Stack Monitors API
+  description: The Monitors API from Better Stack — 4 operation(s) for monitors.
+  humanURL: https://betterstack.com/docs/uptime/api/getting-started/
+  baseURL: https://uptime.betterstack.com/api/v2
+  tags:
+  - Monitors
+  properties:
+  - type: OpenAPI
+    url: openapi/betterstack-monitors-api-openapi.yml
+  - type: Documentation
+    url: https://betterstack.com/docs/uptime/api/getting-started/
+  - type: APIReference
+    url: https://betterstack.com/docs/uptime/api/monitors/
+- aid: betterstack:betterstack-status-pages-api
+  name: Better Stack Status Pages API
+  description: The Status Pages API from Better Stack — 3 operation(s) for status pages.
+  humanURL: https://betterstack.com/docs/uptime/api/getting-started/
+  baseURL: https://uptime.betterstack.com/api/v2
+  tags:
+  - Status Pages
+  properties:
+  - type: OpenAPI
+    url: openapi/betterstack-status-pages-api-openapi.yml
+  - type: Documentation
+    url: https://betterstack.com/docs/uptime/api/getting-started/
+  - type: APIReference
+    url: https://betterstack.com/docs/uptime/api/monitors/
 common:
   - type: AgenticAccess
     url: agentic-access/betterstack-agentic-access.yml
