@@ -1,0 +1,458 @@
+openapi: 3.1.0
+info:
+  title: Better Stack Uptime API
+  description: |
+    Programmatic access to Better Stack's uptime monitoring, heartbeat monitoring,
+    incident management, status pages, escalation policies, and on-call surfaces.
+    Responses follow the JSON:API specification.
+
+    This document is a best-effort reconstruction from Better Stack's public
+    documentation and is not exhaustive. Refer to
+    https://betterstack.com/docs/uptime/api/ for authoritative reference.
+  version: '2.0.0'
+  contact:
+    name: Better Stack
+    url: https://betterstack.com/docs/uptime/api/getting-started/
+  license:
+    name: Proprietary
+servers:
+  - url: https://uptime.betterstack.com/api/v2
+    description: Better Stack Uptime API (v2 surface — monitors, heartbeats, status pages, on-call)
+  - url: https://uptime.betterstack.com/api/v3
+    description: Better Stack Uptime API (v3 surface — incidents)
+security:
+  - bearerAuth: []
+tags:
+  - name: Monitors
+  - name: Heartbeats
+  - name: Incidents
+  - name: Status Pages
+  - name: On-Call
+paths:
+  /monitors:
+    get:
+      tags: [Monitors]
+      summary: List monitors
+      operationId: listMonitors
+      parameters:
+        - $ref: '#/components/parameters/PerPage'
+        - $ref: '#/components/parameters/Page'
+        - name: url
+          in: query
+          schema: { type: string }
+        - name: pronounceable_name
+          in: query
+          schema: { type: string }
+      responses:
+        '200':
+          description: A page of monitors.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MonitorList' }
+    post:
+      tags: [Monitors]
+      summary: Create monitor
+      operationId: createMonitor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MonitorCreate' }
+      responses:
+        '201':
+          description: Created monitor.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MonitorResource' }
+  /monitors/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags: [Monitors]
+      summary: Get monitor
+      operationId: getMonitor
+      responses:
+        '200':
+          description: Monitor.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MonitorResource' }
+    patch:
+      tags: [Monitors]
+      summary: Update monitor
+      operationId: updateMonitor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MonitorUpdate' }
+      responses:
+        '200':
+          description: Updated monitor.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MonitorResource' }
+    delete:
+      tags: [Monitors]
+      summary: Delete monitor
+      operationId: deleteMonitor
+      responses:
+        '204':
+          description: Removed.
+  /monitors/{id}/response-times:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags: [Monitors]
+      summary: Monitor response times
+      operationId: getMonitorResponseTimes
+      responses:
+        '200':
+          description: Response time series.
+  /monitors/{id}/availability:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags: [Monitors]
+      summary: Monitor availability
+      operationId: getMonitorAvailability
+      responses:
+        '200':
+          description: Availability summary.
+  /heartbeats:
+    get:
+      tags: [Heartbeats]
+      summary: List heartbeats
+      operationId: listHeartbeats
+      parameters:
+        - $ref: '#/components/parameters/PerPage'
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: A page of heartbeats.
+    post:
+      tags: [Heartbeats]
+      summary: Create heartbeat
+      operationId: createHeartbeat
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/HeartbeatCreate' }
+      responses:
+        '201':
+          description: Created heartbeat.
+  /heartbeats/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags: [Heartbeats]
+      summary: Get heartbeat
+      operationId: getHeartbeat
+      responses:
+        '200': { description: Heartbeat. }
+    patch:
+      tags: [Heartbeats]
+      summary: Update heartbeat
+      operationId: updateHeartbeat
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/HeartbeatCreate' }
+      responses:
+        '200': { description: Updated heartbeat. }
+    delete:
+      tags: [Heartbeats]
+      summary: Remove heartbeat
+      operationId: deleteHeartbeat
+      responses:
+        '204': { description: Removed. }
+  /heartbeats/{id}/availability:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags: [Heartbeats]
+      summary: Heartbeat availability
+      operationId: getHeartbeatAvailability
+      responses:
+        '200': { description: Availability summary. }
+  /status-pages:
+    get:
+      tags: [Status Pages]
+      summary: List status pages
+      operationId: listStatusPages
+      parameters:
+        - $ref: '#/components/parameters/PerPage'
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200': { description: A page of status pages. }
+    post:
+      tags: [Status Pages]
+      summary: Create status page
+      operationId: createStatusPage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/StatusPageCreate' }
+      responses:
+        '201': { description: Created status page. }
+  /status-pages/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags: [Status Pages]
+      summary: Get status page
+      operationId: getStatusPage
+      responses:
+        '200': { description: Status page. }
+    patch:
+      tags: [Status Pages]
+      summary: Update status page
+      operationId: updateStatusPage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/StatusPageCreate' }
+      responses:
+        '200': { description: Updated status page. }
+    delete:
+      tags: [Status Pages]
+      summary: Remove status page
+      operationId: deleteStatusPage
+      responses:
+        '204': { description: Removed. }
+  /status-pages/group/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags: [Status Pages]
+      summary: List status pages in group
+      operationId: listStatusPagesInGroup
+      responses:
+        '200': { description: Status pages in the group. }
+  /incidents:
+    servers:
+      - url: https://uptime.betterstack.com/api/v3
+    get:
+      tags: [Incidents]
+      summary: List incidents
+      operationId: listIncidents
+      parameters:
+        - $ref: '#/components/parameters/PerPage'
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200': { description: A page of incidents. }
+    post:
+      tags: [Incidents]
+      summary: Create incident
+      operationId: createIncident
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/IncidentCreate' }
+      responses:
+        '201': { description: Created incident. }
+  /incidents/{id}:
+    servers:
+      - url: https://uptime.betterstack.com/api/v3
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags: [Incidents]
+      summary: Get incident
+      operationId: getIncident
+      responses:
+        '200': { description: Incident. }
+    delete:
+      tags: [Incidents]
+      summary: Remove incident
+      operationId: deleteIncident
+      responses:
+        '204': { description: Removed. }
+  /incidents/{id}/timeline:
+    servers:
+      - url: https://uptime.betterstack.com/api/v3
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags: [Incidents]
+      summary: List incident timeline
+      operationId: getIncidentTimeline
+      responses:
+        '200': { description: Timeline entries. }
+  /incidents/{id}/acknowledge:
+    servers:
+      - url: https://uptime.betterstack.com/api/v3
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    post:
+      tags: [Incidents]
+      summary: Acknowledge incident
+      operationId: acknowledgeIncident
+      responses:
+        '200': { description: Acknowledged. }
+  /incidents/{id}/resolve:
+    servers:
+      - url: https://uptime.betterstack.com/api/v3
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    post:
+      tags: [Incidents]
+      summary: Resolve incident
+      operationId: resolveIncident
+      responses:
+        '200': { description: Resolved. }
+  /incidents/{id}/reopen:
+    servers:
+      - url: https://uptime.betterstack.com/api/v3
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    post:
+      tags: [Incidents]
+      summary: Reopen incident
+      operationId: reopenIncident
+      responses:
+        '200': { description: Reopened. }
+  /incidents/{id}/escalate:
+    servers:
+      - url: https://uptime.betterstack.com/api/v3
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    post:
+      tags: [Incidents]
+      summary: Escalate incident
+      operationId: escalateIncident
+      responses:
+        '200': { description: Escalated. }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: |
+        Bearer token. Provide either a Global API Token (account-wide) or a
+        team-scoped Uptime API Token. Issued from Better Stack → API tokens.
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema: { type: string }
+    PerPage:
+      name: per_page
+      in: query
+      schema: { type: integer, minimum: 1, maximum: 50 }
+    Page:
+      name: page
+      in: query
+      schema: { type: integer, minimum: 1 }
+  schemas:
+    JsonApiResource:
+      type: object
+      properties:
+        id: { type: string }
+        type: { type: string }
+        attributes: { type: object, additionalProperties: true }
+        relationships: { type: object, additionalProperties: true }
+    MonitorResource:
+      type: object
+      properties:
+        data: { $ref: '#/components/schemas/JsonApiResource' }
+    MonitorList:
+      type: object
+      properties:
+        data:
+          type: array
+          items: { $ref: '#/components/schemas/JsonApiResource' }
+        pagination: { type: object, additionalProperties: true }
+    MonitorCreate:
+      type: object
+      required: [url, monitor_type]
+      properties:
+        url: { type: string, format: uri }
+        monitor_type:
+          type: string
+          enum: [status, expected_status_code, keyword, keyword_absence, ping, tcp, udp, smtp, pop, imap, dns, playwright]
+        pronounceable_name: { type: string }
+        check_frequency: { type: integer, description: Seconds between checks. }
+        request_headers:
+          type: array
+          items:
+            type: object
+            properties:
+              name: { type: string }
+              value: { type: string }
+        request_body: { type: string }
+        request_timeout: { type: integer }
+        recovery_period: { type: integer }
+        confirmation_period: { type: integer }
+        regions:
+          type: array
+          items: { type: string }
+        email: { type: boolean }
+        sms: { type: boolean }
+        call: { type: boolean }
+        push: { type: boolean }
+        team_wait: { type: integer }
+        paused: { type: boolean }
+        follow_redirects: { type: boolean }
+        verify_ssl: { type: boolean }
+        ssl_expiration: { type: integer }
+        domain_expiration: { type: integer }
+        expected_status_codes:
+          type: array
+          items: { type: integer }
+    MonitorUpdate:
+      allOf:
+        - $ref: '#/components/schemas/MonitorCreate'
+    HeartbeatCreate:
+      type: object
+      required: [name, period]
+      properties:
+        name: { type: string }
+        period: { type: integer, description: Expected interval in seconds. }
+        grace: { type: integer, description: Grace period in seconds. }
+        call: { type: boolean }
+        sms: { type: boolean }
+        email: { type: boolean }
+        push: { type: boolean }
+        team_wait: { type: integer }
+        paused: { type: boolean }
+        policy_id: { type: string }
+    StatusPageCreate:
+      type: object
+      required: [company_name, company_url, subdomain]
+      properties:
+        company_name: { type: string }
+        company_url: { type: string, format: uri }
+        contact_url: { type: string, format: uri }
+        logo_url: { type: string, format: uri }
+        timezone: { type: string }
+        subdomain: { type: string }
+        custom_domain: { type: string }
+        announcement: { type: string }
+        announcement_embed_visible: { type: boolean }
+        history: { type: integer }
+        password_enabled: { type: boolean }
+        password: { type: string }
+        google_analytics_id: { type: string }
+        min_incident_length: { type: integer }
+        subscribable: { type: boolean }
+        hide_from_search_engines: { type: boolean }
+    IncidentCreate:
+      type: object
+      required: [summary, requester_email]
+      properties:
+        summary: { type: string }
+        description: { type: string }
+        requester_email: { type: string, format: email }
+        call: { type: boolean }
+        sms: { type: boolean }
+        email: { type: boolean }
+        push: { type: boolean }
+        team_wait: { type: integer }
+        policy_id: { type: string }

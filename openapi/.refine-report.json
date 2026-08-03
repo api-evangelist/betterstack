@@ -1,0 +1,20 @@
+{
+  "provider": "betterstack",
+  "sources": [
+    "betterstack-heartbeats-api-openapi.yml",
+    "betterstack-incidents-api-openapi.yml",
+    "betterstack-monitors-api-openapi.yml",
+    "betterstack-status-pages-api-openapi.yml"
+  ],
+  "outputs": [
+    "betterstack-heartbeats-api-openapi.yml",
+    "betterstack-incidents-api-openapi.yml",
+    "betterstack-monitors-api-openapi.yml",
+    "betterstack-status-pages-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
