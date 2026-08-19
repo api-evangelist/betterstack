@@ -1,0 +1,840 @@
+{
+  "item": [
+    {
+      "id": "ac608760-5273-477b-8843-3cd0d5ce2e94",
+      "name": "Incidents",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "765ce7dd-cf1d-47e9-a333-366fd1a43f34",
+          "name": "List incidents",
+          "request": {
+            "name": "List incidents",
+            "description": {},
+            "url": {
+              "path": [
+                "incidents"
+              ],
+              "host": [
+                "{{incidents-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c6f7255f-f5eb-4b35-a5dc-aff58ff35b63",
+              "name": "A page of incidents.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "incidents"
+                  ],
+                  "host": [
+                    "{{incidents-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "per_page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a49913e0-f1d5-42e4-9260-5d035d9a7c5b",
+          "name": "Create incident",
+          "request": {
+            "name": "Create incident",
+            "description": {},
+            "url": {
+              "path": [
+                "incidents"
+              ],
+              "host": [
+                "{{incidents-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"summary\": \"<string>\",\n  \"requester_email\": \"<email>\",\n  \"description\": \"<string>\",\n  \"call\": \"<boolean>\",\n  \"sms\": \"<boolean>\",\n  \"email\": \"<boolean>\",\n  \"push\": \"<boolean>\",\n  \"team_wait\": \"<integer>\",\n  \"policy_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a9abdd49-532a-4706-8f09-5534c81ae90f",
+              "name": "Created incident.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "incidents"
+                  ],
+                  "host": [
+                    "{{incidents-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"summary\": \"<string>\",\n  \"requester_email\": \"<email>\",\n  \"description\": \"<string>\",\n  \"call\": \"<boolean>\",\n  \"sms\": \"<boolean>\",\n  \"email\": \"<boolean>\",\n  \"push\": \"<boolean>\",\n  \"team_wait\": \"<integer>\",\n  \"policy_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9a58e994-4e12-4129-b2b7-2051fa006478",
+          "name": "Get incident",
+          "request": {
+            "name": "Get incident",
+            "description": {},
+            "url": {
+              "path": [
+                "incidents",
+                ":id"
+              ],
+              "host": [
+                "{{incidents-id-Url}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f4e4d1f8-6878-45f1-9a0f-3cdd20f93188",
+              "name": "Incident.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "incidents",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{incidents-id-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9750fede-5019-48d7-a049-9b29677dc11b",
+          "name": "Remove incident",
+          "request": {
+            "name": "Remove incident",
+            "description": {},
+            "url": {
+              "path": [
+                "incidents",
+                ":id"
+              ],
+              "host": [
+                "{{incidents-id-Url}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "465e0e29-7b40-4aca-9cc2-e63e0628649b",
+              "name": "Removed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "incidents",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{incidents-id-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bec6c676-bcdc-42ab-9880-7f7f7645dec7",
+          "name": "List incident timeline",
+          "request": {
+            "name": "List incident timeline",
+            "description": {},
+            "url": {
+              "path": [
+                "incidents",
+                ":id",
+                "timeline"
+              ],
+              "host": [
+                "{{incidents-id-timeline-Url}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7aa70715-66be-4548-a4bc-466213ee8715",
+              "name": "Timeline entries.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "incidents",
+                    ":id",
+                    "timeline"
+                  ],
+                  "host": [
+                    "{{incidents-id-timeline-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a0957877-ecc3-4486-a174-ca71dd065be9",
+          "name": "Acknowledge incident",
+          "request": {
+            "name": "Acknowledge incident",
+            "description": {},
+            "url": {
+              "path": [
+                "incidents",
+                ":id",
+                "acknowledge"
+              ],
+              "host": [
+                "{{incidents-id-acknowledge-Url}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6b7740a6-4c28-469e-8933-45e71177ee18",
+              "name": "Acknowledged.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "incidents",
+                    ":id",
+                    "acknowledge"
+                  ],
+                  "host": [
+                    "{{incidents-id-acknowledge-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6a43ee7f-a9d2-4ba8-9757-a927d347df02",
+          "name": "Resolve incident",
+          "request": {
+            "name": "Resolve incident",
+            "description": {},
+            "url": {
+              "path": [
+                "incidents",
+                ":id",
+                "resolve"
+              ],
+              "host": [
+                "{{incidents-id-resolve-Url}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6dad1aa7-608f-4d24-8edb-0a459efb0026",
+              "name": "Resolved.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "incidents",
+                    ":id",
+                    "resolve"
+                  ],
+                  "host": [
+                    "{{incidents-id-resolve-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c8bcc58c-e7f6-440c-a16e-d58359fbdfa9",
+          "name": "Reopen incident",
+          "request": {
+            "name": "Reopen incident",
+            "description": {},
+            "url": {
+              "path": [
+                "incidents",
+                ":id",
+                "reopen"
+              ],
+              "host": [
+                "{{incidents-id-reopen-Url}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3829bb9a-3e49-4d73-820d-c3ad046aff11",
+              "name": "Reopened.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "incidents",
+                    ":id",
+                    "reopen"
+                  ],
+                  "host": [
+                    "{{incidents-id-reopen-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a921f701-cabd-4fe4-9508-c633eafd2a09",
+          "name": "Escalate incident",
+          "request": {
+            "name": "Escalate incident",
+            "description": {},
+            "url": {
+              "path": [
+                "incidents",
+                ":id",
+                "escalate"
+              ],
+              "host": [
+                "{{incidents-id-escalate-Url}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e77f4cd0-97cf-40ef-b2bf-23a9b031f60d",
+              "name": "Escalated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "incidents",
+                    ":id",
+                    "escalate"
+                  ],
+                  "host": [
+                    "{{incidents-id-escalate-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://uptime.betterstack.com/api/v2",
+      "key": "baseUrl"
+    },
+    {
+      "type": "string",
+      "value": "https://uptime.betterstack.com/api/v3",
+      "key": "incidents-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://uptime.betterstack.com/api/v3",
+      "key": "incidents-id-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://uptime.betterstack.com/api/v3",
+      "key": "incidents-id-timeline-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://uptime.betterstack.com/api/v3",
+      "key": "incidents-id-acknowledge-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://uptime.betterstack.com/api/v3",
+      "key": "incidents-id-resolve-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://uptime.betterstack.com/api/v3",
+      "key": "incidents-id-reopen-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://uptime.betterstack.com/api/v3",
+      "key": "incidents-id-escalate-Url"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "dc05b566-9afd-4a93-9ac9-10154368237a",
+    "name": "Better Stack Uptime Heartbeats Incidents API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Programmatic access to Better Stack's uptime monitoring, heartbeat monitoring,\nincident management, status pages, escalation policies, and on-call surfaces.\nResponses follow the JSON:API specification.\n\nThis document is a best-effort reconstruction from Better Stack's public\ndocumentation and is not exhaustive. Refer to\nhttps://betterstack.com/docs/uptime/api/ for authoritative reference.\n\n\nContact Support:\n Name: Better Stack",
+      "type": "text/plain"
+    }
+  }
+}
