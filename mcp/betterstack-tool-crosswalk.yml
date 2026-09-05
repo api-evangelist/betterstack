@@ -1,0 +1,336 @@
+generated: '2026-09-04'
+method: derived
+source: >-
+  Derived by binding Better Stack's published MCP tool catalog
+  (https://betterstack.com/docs/getting-started/integrations/mcp/, captured in
+  mcp/betterstack-mcp.yml) to the operationIds in this repo's four Uptime OpenAPI documents.
+provider: Better Stack
+providerId: betterstack
+caveat: >-
+  Two honest limits on confidence. (1) The live MCP tools/list is auth-gated (401), so tools
+  are matched by published NAME and semantics, not by an introspected inputSchema. (2) The
+  OpenAPI documents in openapi/ are API Evangelist reconstructions from Better Stack's public
+  docs — they say so in info.description — not a provider-published contract, so the
+  operationIds on the REST side are ours, not Better Stack's. Nothing here is higher than
+  medium confidence for that reason.
+surfaces:
+  openapi:
+  - openapi/betterstack-monitors-api-openapi.yml
+  - openapi/betterstack-heartbeats-api-openapi.yml
+  - openapi/betterstack-incidents-api-openapi.yml
+  - openapi/betterstack-status-pages-api-openapi.yml
+  rest_base: https://uptime.betterstack.com/api/v2
+  mcp:
+    url: https://mcp.betterstack.com
+    gated: true
+    auth: oauth
+  graphql: null
+crosswalk:
+- tool: List monitors
+  category: uptime-monitors
+  rest: [listMonitors]
+  binding: 1:1
+  confidence: medium
+- tool: Get monitor details
+  category: uptime-monitors
+  rest: [getMonitor]
+  binding: 1:1
+  confidence: medium
+- tool: Create monitor
+  category: uptime-monitors
+  rest: [createMonitor]
+  binding: 1:1
+  confidence: medium
+- tool: Get monitor availability
+  category: uptime-monitors
+  rest: [getMonitorAvailability]
+  binding: 1:1
+  confidence: medium
+- tool: Get monitor response times
+  category: uptime-monitors
+  rest: [getMonitorResponseTimes]
+  binding: 1:1
+  confidence: medium
+- tool: List heartbeats
+  category: uptime-heartbeats
+  rest: [listHeartbeats]
+  binding: 1:1
+  confidence: medium
+- tool: Get heartbeat details
+  category: uptime-heartbeats
+  rest: [getHeartbeat]
+  binding: 1:1
+  confidence: medium
+- tool: Create heartbeat
+  category: uptime-heartbeats
+  rest: [createHeartbeat]
+  binding: 1:1
+  confidence: medium
+- tool: Get heartbeat availability
+  category: uptime-heartbeats
+  rest: [getHeartbeatAvailability]
+  binding: 1:1
+  confidence: medium
+- tool: Create incident
+  category: uptime-incidents
+  rest: [createIncident]
+  binding: 1:1
+  confidence: medium
+- tool: List incidents
+  category: uptime-incidents
+  rest: [listIncidents]
+  binding: 1:1
+  confidence: medium
+- tool: Get incident details
+  category: uptime-incidents
+  rest: [getIncident]
+  binding: 1:1
+  confidence: medium
+- tool: Get incident timeline
+  category: uptime-incidents
+  rest: [getIncidentTimeline]
+  binding: 1:1
+  confidence: medium
+- tool: Acknowledge incident
+  category: uptime-incidents
+  rest: [acknowledgeIncident]
+  binding: 1:1
+  confidence: medium
+- tool: Escalate incident
+  category: uptime-incidents
+  rest: [escalateIncident]
+  binding: 1:1
+  confidence: medium
+- tool: Resolve incident
+  category: uptime-incidents
+  rest: [resolveIncident]
+  binding: 1:1
+  confidence: medium
+- tool: Reopen incident
+  category: uptime-incidents
+  rest: [reopenIncident]
+  binding: 1:1
+  confidence: medium
+  note: The MCP docs add a constraint the REST reconstruction does not carry — reopen works
+    only within 24 hours of resolution.
+- tool: List status pages
+  category: uptime-status-pages
+  rest: [listStatusPages]
+  binding: 1:1
+  confidence: medium
+- tool: Get status page details
+  category: uptime-status-pages
+  rest: [getStatusPage]
+  binding: 1:1
+  confidence: medium
+- tool: Update status page
+  category: uptime-status-pages
+  rest: [updateStatusPage]
+  binding: 1:1
+  confidence: medium
+mcp_only:
+- tool: Search documentation
+  reason: Documentation search is not a REST resource; it fronts Better Stack's docs corpus.
+- tool: Get on-call details
+  reason: On-call read surface; documented under the Uptime API but not captured in this repo's
+    reconstructed specs.
+- tool: List on-call calendars
+  reason: as above
+- tool: List on-call events
+  reason: as above
+- tool: Get on-call event details
+  reason: as above
+- tool: Get on-call rotation details
+  reason: as above
+- tool: Get available incident escalation policies
+  reason: Escalation-policy surface not present in this repo's reconstructed OpenAPI.
+- tool: List escalation policies
+  reason: as above
+- tool: Get escalation policy details
+  reason: as above
+- tool: List severities
+  reason: as above
+- tool: Get severity details
+  reason: as above
+- tool: Get incident comments
+  reason: Incident comment sub-resource not captured in the reconstructed spec.
+- tool: Create incident comment
+  reason: as above
+- tool: Get status page resources
+  reason: Status-page resource/section/report sub-resources are not captured in the reconstructed
+    spec, though Better Stack documents them under the Uptime API.
+- tool: Add status page resource
+  reason: as above
+- tool: Update status page resource
+  reason: as above
+- tool: Remove status page resource
+  reason: as above
+- tool: Get status page sections
+  reason: as above
+- tool: Create status page section
+  reason: as above
+- tool: Update status page section
+  reason: as above
+- tool: Remove status page section
+  reason: as above
+- tool: Create status page report
+  reason: as above
+- tool: Create status page report update
+  reason: as above
+- tool: List status page reports
+  reason: as above
+- tool: List status page report updates
+  reason: as above
+- tool: Get status page report update details
+  reason: as above
+- tool: Execute query
+  reason: Telemetry surface — ClickHouse SQL against telemetry.betterstack.com/api/v1; no
+    OpenAPI in this repo.
+- tool: Render chart
+  reason: Telemetry surface; composite (query + render), no REST equivalent.
+- tool: Get query instructions
+  reason: Instruction/prompt tool with no backing REST operation.
+- tool: Get explore logs query instructions
+  reason: as above
+- tool: Get metric query instructions
+  reason: as above
+- tool: Get errors query instructions
+  reason: as above
+- tool: Get replays query instructions
+  reason: as above
+- tool: Get dashboard query instructions
+  reason: as above
+- tool: Get chart building instructions
+  reason: as above
+- tool: Get chart alert instructions
+  reason: as above
+- tool: List sources
+  reason: Telemetry API surface (telemetry.betterstack.com/api/v1); no OpenAPI in this repo.
+- tool: Get source details
+  reason: as above
+- tool: Create source
+  reason: as above
+- tool: Get source fields
+  reason: as above
+- tool: List dashboards
+  reason: Telemetry dashboards surface; no OpenAPI in this repo.
+- tool: Get dashboard details
+  reason: as above
+- tool: List dashboard templates
+  reason: as above
+- tool: Create dashboard
+  reason: as above
+- tool: Configure dashboard
+  reason: as above
+- tool: Set dashboard variable
+  reason: as above
+- tool: Remove dashboard variable
+  reason: as above
+- tool: Export dashboard
+  reason: as above
+- tool: Import dashboard
+  reason: as above
+- tool: Remove dashboard
+  reason: as above
+- tool: Get chart details
+  reason: Telemetry charts surface; no OpenAPI in this repo.
+- tool: Add chart to dashboard
+  reason: as above
+- tool: Configure chart
+  reason: as above
+- tool: Remove chart
+  reason: as above
+- tool: Add dashboard section
+  reason: as above
+- tool: Configure dashboard section
+  reason: as above
+- tool: Remove dashboard section
+  reason: as above
+- tool: Move charts
+  reason: as above
+- tool: List chart alerts
+  reason: Telemetry alerting surface; no OpenAPI in this repo.
+- tool: Get chart alert details
+  reason: as above
+- tool: Create chart alert
+  reason: as above
+- tool: Configure chart alert
+  reason: as above
+- tool: Remove chart alert
+  reason: as above
+- tool: Pause or resume chart alert
+  reason: as above
+- tool: Get metrics schema
+  reason: Telemetry metrics surface; no OpenAPI in this repo.
+- tool: Get metric details
+  reason: as above
+- tool: List metric expressions
+  reason: as above
+- tool: Create metric expression
+  reason: as above
+- tool: Update metric expression
+  reason: as above
+- tool: Remove metric expression
+  reason: as above
+- tool: List data regions
+  reason: Telemetry infrastructure surface; no OpenAPI in this repo.
+- tool: List clusters
+  reason: as above
+- tool: List teams
+  reason: as above
+- tool: Create cloud connection
+  reason: as above
+- tool: List applications
+  reason: Errors API surface (errors.betterstack.com/api/v1); no OpenAPI in this repo.
+- tool: Get application details
+  reason: as above
+- tool: Create application
+  reason: as above
+- tool: List releases
+  reason: as above
+- tool: List errors
+  reason: as above
+- tool: Get error details
+  reason: as above
+- tool: Update error state
+  reason: as above
+- tool: List team members
+  reason: Team-management surface documented under the Uptime API but not captured in this
+    repo's reconstructed specs.
+- tool: List team roles
+  reason: as above
+- tool: Invite team member
+  reason: as above
+- tool: Change team member role
+  reason: as above
+- tool: Remove team member
+  reason: as above
+rest_only:
+- operationId: updateMonitor
+  reason: No MCP tool named for updating a monitor in the published catalog; only create,
+    list, get, availability and response times are exposed.
+- operationId: deleteMonitor
+  reason: No delete-monitor tool in the published MCP catalog.
+- operationId: updateHeartbeat
+  reason: No update-heartbeat tool in the published MCP catalog.
+- operationId: deleteHeartbeat
+  reason: No delete-heartbeat tool in the published MCP catalog.
+- operationId: deleteIncident
+  reason: No delete-incident tool in the published MCP catalog.
+- operationId: createStatusPage
+  reason: The MCP catalog exposes update but not create for status pages.
+- operationId: deleteStatusPage
+  reason: No delete-status-page tool in the published MCP catalog.
+- operationId: listStatusPagesInGroup
+  reason: No group-scoped status page listing tool in the published MCP catalog.
+coverage:
+  mcp_tools_documented: 106
+  rest_operations: 28
+  mapped: 20
+  mcp_only: 86
+  rest_only: 8
+  note: >-
+    The agent surface is roughly four times the size of the REST contract this repo holds.
+    Better Stack's MCP server reaches Telemetry and Error Tracking, neither of which has an
+    OpenAPI in this repo, and the destructive REST operations (delete monitor / heartbeat /
+    incident / status page) are deliberately absent from the MCP catalog.

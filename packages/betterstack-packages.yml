@@ -1,0 +1,217 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  Package registry metadata endpoints (registry.npmjs.org, pypi.org, rubygems.org,
+  repo.packagist.org, api.nuget.org, proxy.golang.org) queried 2026-09-04, cross-checked
+  against Better Stack's own docs (https://betterstack.com/docs/logs/javascript/install/,
+  which names @logtail/node / @logtail/browser / @logtail/js and links
+  github.com/logtail/logtail-js) and the BetterStackHQ GitHub organization.
+provider: Better Stack
+providerId: betterstack
+note: >-
+  Better Stack's client libraries are published under the legacy `logtail` npm scope, PyPI
+  name, RubyGems names and Packagist vendor — Logtail is Better Stack's log-management
+  product, renamed but not repackaged, and Better Stack's own installation docs still tell
+  users to install those exact names. The .NET clients moved to the BetterStack prefix and
+  live in the BetterStackHQ GitHub org. All of these ship telemetry INTO Better Stack; note
+  that NONE of them is a client for the Uptime/Telemetry/Errors REST management APIs — for
+  those Better Stack ships Terraform providers instead of an SDK, which is a real gap for an
+  agent or script that wants to call the management API in a typed way.
+packages:
+- name: '@logtail/js'
+  registry: npm
+  url: https://www.npmjs.com/package/@logtail/js
+  language: JavaScript
+  official: true
+  version: 0.5.8
+  published: '2026-03-04'
+  repository: https://github.com/logtail/logtail-js
+  description: Umbrella package installing both @logtail/node and @logtail/browser.
+- name: '@logtail/node'
+  registry: npm
+  url: https://www.npmjs.com/package/@logtail/node
+  language: JavaScript
+  official: true
+  version: 0.5.8
+  published: '2026-03-04'
+  repository: https://github.com/logtail/logtail-js
+  description: Node.js logging client; the package Better Stack's JavaScript install page names first.
+- name: '@logtail/browser'
+  registry: npm
+  url: https://www.npmjs.com/package/@logtail/browser
+  language: JavaScript
+  official: true
+  version: 0.5.8
+  published: '2026-03-04'
+  repository: https://github.com/logtail/logtail-js
+  description: Browser logging client.
+- name: '@logtail/core'
+  registry: npm
+  url: https://www.npmjs.com/package/@logtail/core
+  language: TypeScript
+  official: true
+  version: 0.5.8
+  published: '2026-03-04'
+  repository: https://github.com/logtail/logtail-js
+  description: Shared core used by the Node and browser clients.
+- name: '@logtail/types'
+  registry: npm
+  url: https://www.npmjs.com/package/@logtail/types
+  language: TypeScript
+  official: true
+  version: 0.5.8
+  published: '2026-03-04'
+  repository: https://github.com/logtail/logtail-js
+  description: Shared TypeScript types.
+- name: '@logtail/edge'
+  registry: npm
+  url: https://www.npmjs.com/package/@logtail/edge
+  language: JavaScript
+  official: true
+  version: 0.5.8
+  published: '2026-03-04'
+  repository: https://github.com/logtail/logtail-js
+  description: Edge-runtime logging client (Cloudflare Workers, Vercel Edge).
+- name: '@logtail/pino'
+  registry: npm
+  url: https://www.npmjs.com/package/@logtail/pino
+  language: JavaScript
+  official: true
+  version: 0.5.8
+  published: '2026-03-04'
+  repository: https://github.com/logtail/logtail-js
+  description: Pino transport.
+- name: '@logtail/winston'
+  registry: npm
+  url: https://www.npmjs.com/package/@logtail/winston
+  language: JavaScript
+  official: true
+  version: 0.5.8
+  published: '2026-03-04'
+  repository: https://github.com/logtail/logtail-js
+  description: Winston transport.
+- name: '@logtail/bunyan'
+  registry: npm
+  url: https://www.npmjs.com/package/@logtail/bunyan
+  language: JavaScript
+  official: true
+  version: 0.5.8
+  published: '2026-03-04'
+  repository: https://github.com/logtail/logtail-js
+  description: Bunyan stream.
+- name: '@logtail/next'
+  registry: npm
+  url: https://www.npmjs.com/package/@logtail/next
+  language: JavaScript
+  official: true
+  version: 0.4.0
+  published: '2026-07-17'
+  repository: https://github.com/logtail/logtail-nextjs
+  description: Next.js integration; the most recently released of the JavaScript family.
+- name: logtail-python
+  registry: pypi
+  url: https://pypi.org/project/logtail-python/
+  language: Python
+  official: true
+  version: 0.4.0
+  published: '2026-07-01'
+  repository: https://github.com/logtail/logtail-python
+  description: Python logging handler shipping logs to Better Stack Telemetry.
+- name: logtail
+  registry: rubygems
+  url: https://rubygems.org/gems/logtail
+  language: Ruby
+  official: true
+  version: 0.1.17
+  published: '2025-03-10'
+  repository: https://github.com/logtail/logtail-ruby
+  description: Ruby logging client.
+- name: logtail-rails
+  registry: rubygems
+  url: https://rubygems.org/gems/logtail-rails
+  language: Ruby
+  official: true
+  version: 0.2.12
+  published: '2025-11-24'
+  repository: https://github.com/logtail/logtail-ruby-rails
+  description: Rails integration for the Ruby client.
+- name: logtail-rack
+  registry: rubygems
+  url: https://rubygems.org/gems/logtail-rack
+  language: Ruby
+  official: true
+  version: 0.2.6
+  published: '2025-02-11'
+  repository: https://github.com/logtail/logtail-ruby-rack
+  description: Rack middleware for the Ruby client.
+- name: logtail/monolog-logtail
+  registry: packagist
+  url: https://packagist.org/packages/logtail/monolog-logtail
+  language: PHP
+  official: true
+  version: v3.3.1
+  published: '2026-07-08'
+  repository: https://github.com/logtail/monolog-logtail
+  description: Monolog handler for PHP / Laravel.
+- name: BetterStack.Logs.Serilog
+  registry: nuget
+  url: https://www.nuget.org/packages/BetterStack.Logs.Serilog
+  language: C#
+  official: true
+  version: 1.2.0
+  published: '2025-11-04'
+  repository: https://github.com/BetterStackHQ/logs-client-serilog
+  description: Serilog sink for .NET.
+- name: BetterStack.Logs.NLog
+  registry: nuget
+  url: https://www.nuget.org/packages/BetterStack.Logs.NLog
+  language: C#
+  official: true
+  version: 1.0.0
+  published: '2023-11-08'
+  repository: https://github.com/BetterStackHQ/logs-client-nlog
+  description: NLog target for .NET. Oldest release in the first-party set — nearly three
+    years without a publish, while the repo itself was touched 2026-08-10.
+- name: github.com/BetterStackHQ/terraform-provider-better-uptime
+  registry: go
+  url: https://registry.terraform.io/providers/BetterStackHQ/better-uptime/latest
+  language: Go
+  official: true
+  version: v0.21.14
+  published: '2026-09-02'
+  repository: https://github.com/BetterStackHQ/terraform-provider-better-uptime
+  description: >-
+    Terraform provider for the Uptime API — monitors, heartbeats, status pages, on-call,
+    escalation policies. The most actively released first-party artifact Better Stack
+    publishes and, in practice, the closest thing they ship to a management-API SDK.
+- name: github.com/BetterStackHQ/terraform-provider-logtail
+  registry: go
+  url: https://registry.terraform.io/providers/BetterStackHQ/logtail/latest
+  language: Go
+  official: true
+  version: v0.9.3
+  published: '2026-03-20'
+  repository: https://github.com/BetterStackHQ/terraform-provider-logtail
+  description: Terraform provider for Better Stack Telemetry (Logs) sources.
+third_party_seen:
+- name: mcp-remote
+  registry: npm
+  version: 0.8.3
+  published: '2026-08-31'
+  official: false
+  note: Named by Better Stack's MCP docs as a proxy for clients that cannot speak remote HTTP,
+    but published by punkpeye, not Better Stack.
+- name: logtail
+  registry: crates.io
+  version: 1.0.1
+  published: '2022-02-03'
+  official: false
+  note: Unrelated crate (github.com/happybeing/logtail-dash). Better Stack publishes no Rust
+    client; recorded here so a later pass does not mistake it for one.
+gaps:
+- language: Go
+  note: No first-party Go logging client on proxy.golang.org (github.com/logtail/logtail-go 404),
+    despite a Go docs page at https://betterstack.com/docs/logs/go/.
+- surface: management API
+  note: No SDK in any language wraps the Uptime v2 / Telemetry v1 / Errors v1 REST management
+    APIs. Every first-party package above is an ingestion client or a Terraform provider.

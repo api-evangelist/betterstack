@@ -1,0 +1,213 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://betterstack.com/docs/uptime/api,
+  https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/,
+  https://betterstack.com/docs/uptime/api/pagination/,
+  https://betterstack.com/docs/logs/api/getting-started/,
+  https://betterstack.com/docs/errors/api/,
+  https://betterstack.com/docs/getting-started/integrations/mcp/,
+  plus live unauthenticated probes of uptime.betterstack.com/api/v2,
+  telemetry.betterstack.com/api/v1 and errors.betterstack.com/api/v1 on 2026-09-04.
+provider: Better Stack
+providerId: betterstack
+auth:
+  style: bearer
+  header: 'Authorization: Bearer $TOKEN'
+  token_types:
+  - name: Global API token
+    scope: valid across all teams in the organization; manages anything in Better Stack
+    issued_at: Better Stack → API tokens → Global API tokens
+  - name: Uptime API token
+    scope: team-scoped; manages Uptime resources for one team
+    issued_at: Better Stack → API tokens → Team-based tokens → Uptime API tokens
+  - name: Telemetry API token
+    scope: team-scoped; manages Telemetry (logs/traces/metrics) and Errors resources
+    issued_at: Better Stack → API tokens → Team-based tokens
+  oauth:
+    present: true
+    used_for: the Better Stack MCP server (https://mcp.betterstack.com) only — the REST APIs
+      are bearer-token only
+    metadata: https://betterstack.com/.well-known/oauth-authorization-server
+    docs: https://betterstack.com/docs/getting-started/integrations/mcp/
+  note: >-
+    There is no per-request signing, no HMAC, and no mTLS. A single long-lived bearer token
+    carries full read+write authority for its scope — the only narrowing available is choosing
+    a team-scoped token over a global one, or, on the MCP surface, the X-MCP-Tools-Only /
+    X-MCP-Tools-Except headers.
+media_type:
+  request: application/json
+  response: application/json
+  specification: JSON:API
+  note: >-
+    Better Stack states "Our API follows the JSON:API specification" on all three API
+    getting-started pages. Resources are returned as `data` objects carrying `id`, `type` and
+    `attributes`. The error envelope, however, is NOT the JSON:API `errors` array — see below.
+pagination:
+  style: page-number
+  params:
+  - name: per_page
+    type: integer
+    default: 50
+    maximum: 250
+    description: Number of resources per page.
+  - name: page
+    type: integer
+    default: 1
+    description: Page to retrieve, starting from 1.
+  response_fields:
+  - pagination.first
+  - pagination.last
+  - pagination.prev
+  - pagination.next
+  cursor: false
+  note: >-
+    Navigation fields carry absolute URLs; `prev` is null on the first page and `next` is null
+    on the last. Example from the docs:
+    https://uptime.betterstack.com/api/v2/monitors?per_page=20&page=3
+  docs: https://betterstack.com/docs/uptime/api/pagination/
+field_expansion:
+  supported: false
+  note: No `expand`, `include` or sparse-fieldset parameter is documented, despite the JSON:API
+    claim — JSON:API's own `include` and `fields[type]` are not offered.
+metadata:
+  supported: true
+  note: >-
+    Better Stack ships a first-class Metadata & Catalog surface (documented at
+    /docs/uptime/api/metadata/) for attaching arbitrary key/value metadata to monitors,
+    incidents and other Uptime resources. It is a product feature, not a per-request
+    convention.
+request_id_tracing:
+  supported: true
+  header: x-request-id
+  note: Observed on live responses from betterstack.com; it is a Rails-generated request id
+    and is not documented as a support-correlation identifier.
+versioning:
+  style: uri-path
+  current:
+    uptime: v2
+    uptime_incidents: v3
+    telemetry: v1
+    errors: v1
+  note: >-
+    Version is carried in the path (/api/v2/...). Both /api/v2/incidents and /api/v3/incidents
+    answer live (401 on an unauthenticated call rather than 404), so v2 has not been retired.
+    Better Stack publishes no written versioning or deprecation policy — see
+    lifecycle/betterstack-lifecycle.yml.
+error_envelope:
+  shape: '{"errors": "<string>"}'
+  rfc9457: false
+  json_api_errors_array: false
+  extra_fields:
+  - name: see_docs
+    note: Present on 404 responses; carries a documentation URL for the failing surface.
+  evidence:
+  - url: https://uptime.betterstack.com/api/v2/monitors
+    status: 401
+    body: '{"errors":"Invalid Team API token. How to find your Team API token: https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/#get-an-uptime-api-token"}'
+  - url: https://uptime.betterstack.com/api/v2/nonexistent-xyz
+    status: 404
+    body: '{"errors":"Endpoint GET /api/v2/nonexistent-xyz does not exist.","see_docs":"https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/"}'
+  note: >-
+    `errors` is a STRING, not the array JSON:API requires. An agent parsing this API as
+    JSON:API will break on every error path. There is no machine-readable error code — only
+    prose — so programmatic branching on failure reason is not possible.
+  see: errors/betterstack-problem-types.yml
+rate_limit_signaling:
+  documented: false
+  headers_observed: []
+  status_on_exhaustion: unknown
+  note: >-
+    Better Stack publishes no rate-limit documentation and returned no RateLimit-*,
+    X-RateLimit-* or Retry-After header on any probed response. See
+    rate-limits/betterstack-rate-limits.yml.
+idempotency:
+  coverage: none
+  mechanism: null
+  header: null
+  scope: []
+  note: >-
+    No Idempotency-Key header, no client-supplied request identifier, and no documented
+    replay protection anywhere in the Uptime, Telemetry or Errors API docs. A retried
+    createMonitor, createHeartbeat or createIncident will create a duplicate. The only
+    naturally idempotent writes are the state transitions (acknowledge, resolve, reopen),
+    which are idempotent by virtue of being state assignments rather than by design.
+dry_run_mode:
+  supported: false
+  note: No preview, validate-only or dry-run parameter is documented on any write operation.
+reversibility:
+  grade: documented
+  note: >-
+    Better Stack's incident lifecycle is genuinely reversible and one reversal carries a
+    STATED window; the resource lifecycle is not reversible at all. Graded `documented`
+    rather than `verified` because the single stated window covers one operation out of the
+    provider's write surface, and every destructive delete is documented as permanent with
+    no restore path or retention window at all.
+  surfaces:
+  - surface: incident state
+    write: resolveIncident
+    reversal: reopenIncident
+    window: within 24 hours of resolution
+    window_source: https://betterstack.com/docs/getting-started/integrations/mcp/
+    grade: verified
+    note: >-
+      Better Stack's MCP tool reference states the reopen tool "Reopens a resolved incident
+      within 24 hours of resolution". This is the only reversal window Better Stack states
+      anywhere; the REST docs for the same transition do not repeat it.
+  - surface: incident acknowledgement
+    write: acknowledgeIncident
+    reversal: null
+    window: null
+    grade: none
+    note: No un-acknowledge operation is documented. Acknowledging stops escalation and cannot
+      be undone through the API.
+  - surface: incident escalation
+    write: escalateIncident
+    reversal: null
+    window: null
+    grade: none
+    note: Escalation pages a human. There is no de-escalate or recall operation, and the
+      notification has already left.
+  - surface: monitors
+    write: deleteMonitor
+    reversal: null
+    window: null
+    grade: none
+    note: Deletion is permanent; no trash, restore or retention window is documented, and the
+      monitor's historical availability data goes with it.
+  - surface: heartbeats
+    write: deleteHeartbeat
+    reversal: null
+    window: null
+    grade: none
+    note: Deletion is permanent; no restore path documented.
+  - surface: status pages
+    write: deleteStatusPage
+    reversal: null
+    window: null
+    grade: none
+    note: Deletion is permanent; no restore path documented. A deleted status page takes its
+      public URL with it.
+  - surface: telemetry dashboards (MCP surface)
+    write: Remove dashboard
+    reversal: null
+    window: null
+    grade: none
+    note: Better Stack's own MCP tool description says it "Permanently removes a dashboard and
+      all its associated charts". Export dashboard produces a JSON configuration and Import
+      dashboard consumes one, so a caller can construct a manual backup-and-restore, but that
+      is a workaround the caller must run BEFORE deleting, not a reversal.
+  - surface: error state
+    write: Update error state
+    reversal: Update error state
+    window: no window stated
+    grade: documented
+    note: Error state is a settable field (unresolved / ignored / resolved), so any transition
+      can be transitioned back. Fully reversible, no window.
+cross_links:
+  errors: errors/betterstack-problem-types.yml
+  lifecycle: lifecycle/betterstack-lifecycle.yml
+  authentication: authentication/betterstack-authentication.yml
+  scopes: scopes/betterstack-scopes.yml
+  rate_limits: rate-limits/betterstack-rate-limits.yml
+  mcp: mcp/betterstack-mcp.yml

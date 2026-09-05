@@ -1,0 +1,46 @@
+generated: '2026-09-04'
+method: probed
+source: >-
+  https://betterstack.com/.well-known/oauth-authorization-server (RFC 8414, HTTP 200) and
+  https://mcp.betterstack.com/.well-known/oauth-protected-resource (RFC 9728, HTTP 200),
+  both fetched 2026-09-04 and saved verbatim under well-known/.
+docs: https://betterstack.com/docs/getting-started/integrations/mcp/
+provider: Better Stack
+providerId: betterstack
+authorization_server: https://betterstack.com
+issuer: https://betterstack.com
+authorization_endpoint: https://betterstack.com/oauth/authorize
+token_endpoint: https://betterstack.com/oauth/token
+registration_endpoint: https://betterstack.com/oauth/register
+dynamic_client_registration: true
+grant_types_supported: [authorization_code, refresh_token]
+code_challenge_methods_supported: [S256]
+token_endpoint_auth_methods_supported: [none]
+protected_resources:
+- resource: https://mcp.betterstack.com
+  resource_name: Better Stack MCP Server
+  bearer_methods_supported: [header]
+scopes:
+- name: read
+  description: Read access to Better Stack resources. Declared in both the authorization-server
+    metadata and the MCP protected-resource metadata; Better Stack publishes no finer-grained
+    description of what it covers.
+  source: /.well-known/oauth-authorization-server
+- name: write
+  description: Write access to Better Stack resources. Declared in both discovery documents;
+    no per-product or per-resource narrowing is offered.
+  source: /.well-known/oauth-authorization-server
+coverage:
+  scope_count: 2
+  granularity: coarse
+  note: >-
+    Two scopes cover a ~106-tool agent surface spanning uptime monitoring, incident management,
+    on-call paging, status pages, ClickHouse query execution over telemetry, dashboards, error
+    triage and team-member administration. `write` grants an agent the ability to page an
+    on-call engineer, delete a dashboard and remove a team member with the same token. The only
+    real narrowing Better Stack offers is not a scope at all — it is the X-MCP-Tools-Only /
+    X-MCP-Tools-Except header allowlist documented for the MCP server.
+rest_api_note: >-
+  These scopes apply to the OAuth surface (the MCP server) only. The Uptime v2, Telemetry v1
+  and Errors v1 REST APIs authenticate with static bearer tokens that carry no scope at all —
+  a token is either global or team-scoped, and within its team it is unrestricted.

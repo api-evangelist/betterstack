@@ -1,0 +1,151 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  Better Stack's own documentation and discovery documents, each cited per entry, plus live
+  probes on 2026-09-04. Nothing here is asserted from a marketing page alone.
+provider: Better Stack
+providerId: betterstack
+conformance:
+- id: oauth2
+  conforms: true
+  evidence: >-
+    https://betterstack.com/.well-known/oauth-authorization-server returns HTTP 200 with a
+    valid RFC 8414 authorization-server metadata document: issuer https://betterstack.com,
+    authorization_endpoint /oauth/authorize, token_endpoint /oauth/token,
+    response_types_supported ["code"], grant_types_supported
+    ["authorization_code","refresh_token"]. Saved verbatim to
+    well-known/betterstack-oauth-authorization-server.json.
+- id: rfc8414
+  name: OAuth 2.0 Authorization Server Metadata
+  conforms: true
+  evidence: https://betterstack.com/.well-known/oauth-authorization-server — HTTP 200,
+    application/json, all required members present.
+- id: rfc9728
+  name: OAuth 2.0 Protected Resource Metadata
+  conforms: true
+  evidence: >-
+    https://mcp.betterstack.com/.well-known/oauth-protected-resource — HTTP 200, declares
+    resource https://mcp.betterstack.com and authorization_servers
+    ["https://betterstack.com"]. Discovered from the WWW-Authenticate challenge
+    `Bearer realm="mcp", resource_metadata="..."` on a tools/list POST, which is itself the
+    RFC 9728 discovery mechanism working correctly.
+- id: rfc7636
+  name: PKCE
+  conforms: true
+  evidence: code_challenge_methods_supported ["S256"] in the authorization-server metadata.
+- id: rfc7591
+  name: OAuth 2.0 Dynamic Client Registration
+  conforms: true
+  evidence: registration_endpoint https://betterstack.com/oauth/register declared in the
+    authorization-server metadata.
+- id: rfc9727
+  name: 'api-catalog: A well-known URI for API discovery'
+  conforms: true
+  evidence: >-
+    https://betterstack.com/.well-known/api-catalog returns HTTP 200 with an RFC 9264 linkset
+    naming three anchors — https://uptime.betterstack.com/api/v2/,
+    https://telemetry.betterstack.com/api/v1/ and https://errors.betterstack.com/api/v1/ —
+    each with a service-doc link. Saved verbatim to well-known/betterstack-api-catalog.json.
+    Fewer than 100 providers in this catalog serve this document.
+- id: rfc9264
+  name: Linkset
+  conforms: true
+  evidence: The api-catalog body is a JSON linkset with `linkset[].anchor` and
+    `linkset[].service-doc[].href` members.
+- id: mcp
+  name: Model Context Protocol
+  conforms: true
+  evidence: >-
+    First-party remote MCP server at https://mcp.betterstack.com, documented at
+    https://betterstack.com/docs/getting-started/integrations/mcp/, answering a JSON-RPC
+    tools/list POST with a 401 + RFC 9728 challenge rather than a routing 404. ~106 tools
+    documented across Uptime, Telemetry, Errors, docs search and team management.
+- id: json:api
+  conforms: partial
+  evidence: >-
+    Better Stack states "Our API follows the JSON:API specification" on all three API
+    getting-started pages, and resources are returned as data/id/type/attributes. But the
+    error envelope is `{"errors": "<string>"}` — a string, not the `errors` ARRAY of objects
+    JSON:API requires (observed live at https://uptime.betterstack.com/api/v2/monitors, 401),
+    pagination uses page/per_page with a `pagination` object rather than JSON:API's
+    `page[number]`/`page[size]` and top-level `links`, and neither `include` nor
+    `fields[type]` is offered. Conforming in resource shape, non-conforming in errors,
+    pagination and sparse fieldsets.
+- id: rfc9457
+  name: Problem Details for HTTP APIs
+  conforms: false
+  evidence: >-
+    No application/problem+json response anywhere. Errors are a bare
+    `errors` string member with no type, title, status or detail members.
+- id: pagination
+  conforms: true
+  evidence: >-
+    Documented at https://betterstack.com/docs/uptime/api/pagination/ — page/per_page
+    (default 50, max 250) with pagination.first/last/prev/next URLs.
+- id: idempotency
+  conforms: false
+  evidence: No Idempotency-Key header or equivalent replay protection is documented on any
+    write operation across the Uptime, Telemetry or Errors APIs.
+- id: rfc8594
+  name: Sunset HTTP Header
+  conforms: false
+  evidence: No Sunset or Deprecation header observed on any probed response, and no
+    deprecation policy is published.
+- id: rfc9116
+  name: security.txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on betterstack.com, www.betterstack.com,
+    uptime.betterstack.com, telemetry.betterstack.com, logs.betterstack.com and
+    mcp.betterstack.com.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration 404s on every probed host. Better Stack
+    CONSUMES SSO (Okta, Azure AD are sold as an Enterprise add-on) but does not act as an
+    OpenID Provider.
+- id: a2a
+  name: A2A Agent Card
+  conforms: false
+  evidence: /.well-known/agent-card.json and /.well-known/agent.json return 404 on every
+    Better Stack host probed. status.betterstack.com answers 200 with an HTML shell for both
+    paths, which is an SPA catch-all, not a card.
+domain_standards:
+- id: opentelemetry
+  name: OpenTelemetry / OTLP
+  market: observability
+  conforms: true
+  role: ingestion contract
+  evidence: >-
+    Better Stack publishes OTLP/HTTP ingestion endpoints at $INGESTING_HOST/v1/traces,
+    /v1/metrics and /v1/logs with `Authorization: Bearer $SOURCE_TOKEN`, documented at
+    https://betterstack.com/docs/logs/open-telemetry/. Probed live 2026-09-04: POST
+    https://in.logs.betterstack.com/v1/logs returns 401 (endpoint exists, credential
+    required) rather than 404. Better Stack also publishes the first-party BetterStackHQ
+    `collector` (eBPF-based OpenTelemetry collector) and maintains forks of `beyla` and
+    `opentelemetry-demo` in its GitHub org, and markets tracing and infrastructure monitoring
+    as "OpenTelemetry-native".
+  significance: >-
+    This is the domain standard that matters in observability. A buyer already emitting OTLP
+    points an existing exporter at Better Stack and is done — no bespoke connector, no vendor
+    SDK, and no lock-in on the ingestion side. It is the strongest interoperability claim
+    Better Stack makes, and unlike the JSON:API claim it holds up on the wire.
+- id: clickhouse-sql
+  name: ClickHouse SQL
+  market: observability query
+  conforms: true
+  role: query contract
+  evidence: >-
+    Better Stack's MCP `Execute query` tool "Executes a ClickHouse SQL query against your
+    telemetry data — works with logs, spans, metrics, exceptions, and replays"
+    (https://betterstack.com/docs/getting-started/integrations/mcp/), and the org publishes
+    a first-party `clickhouse-analyzer` (Rust SQL analyzer for ClickHouse SQL) and a
+    ClickHouse fork. `Create cloud connection` issues temporary credentials for DIRECT
+    ClickHouse access.
+  significance: >-
+    The query language is an existing open standard rather than a proprietary DSL, and the
+    cloud-connection tool means a caller can bypass Better Stack's API entirely and query the
+    store directly. That is unusually open for an observability vendor.
+- id: prometheus
+  conforms: unknown
+  evidence: Not asserted. Better Stack markets metrics and Grafana dashboards (archived repo),
+    but no PromQL or /metrics scrape contract was found on the public docs surface, so this is
+    recorded as unknown rather than false.

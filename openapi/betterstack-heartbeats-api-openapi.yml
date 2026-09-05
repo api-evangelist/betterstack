@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Better Stack Uptime Heartbeats API
   description: 'Programmatic access to Better Stack''s uptime monitoring, heartbeat monitoring,
@@ -102,6 +102,26 @@ paths:
         '200':
           description: Availability summary.
 components:
+  parameters:
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    PerPage:
+      name: per_page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 50
   schemas:
     HeartbeatCreate:
       type: object
@@ -131,26 +151,6 @@ components:
           type: boolean
         policy_id:
           type: string
-  parameters:
-    PerPage:
-      name: per_page
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 50
-    Id:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: string
-    Page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        minimum: 1
   securitySchemes:
     bearerAuth:
       type: http

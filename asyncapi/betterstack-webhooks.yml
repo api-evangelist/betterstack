@@ -1,0 +1,44 @@
+generated: '2026-09-04'
+method: searched
+source: https://betterstack.com/docs/uptime/webhooks/
+provider: Better Stack
+providerId: betterstack
+type: Webhooks
+asyncapi_published: false
+asyncapi_note: >-
+  Better Stack publishes no AsyncAPI document. Probed /asyncapi.yaml and /asyncapi.json on
+  betterstack.com and uptime.betterstack.com — 404. This catalogue is the documented webhook
+  surface, transcribed from the provider's own webhooks page; nothing is generated.
+direction: outbound
+transport: HTTP POST to a subscriber-supplied URL
+channels:
+- name: incident
+  description: >-
+    Fires when a new incident is created, acknowledged, resolved, reopened, or commented on.
+  events: [created, acknowledged, resolved, reopened, comment]
+  payload_notes:
+  - Carries a `relationships.monitor` member with the monitor the incident belongs to.
+  - When the event is `comment`, the payload carries a top-level `comment` member with the
+    comment's content and its author.
+- name: monitor
+  description: Fires when a monitor is created, updated, paused, unpaused, or deleted.
+  events: [created, updated, paused, unpaused, deleted]
+- name: on-call change
+  description: Fires when the on-call contact changes.
+  events: [on-call changed]
+security:
+  signature: undocumented
+  note: >-
+    Better Stack documents no signing secret, HMAC signature header, or timestamp header for
+    outbound webhooks, and no allowlist of source IPs. A receiver has no published way to
+    verify that a delivery actually came from Better Stack. For an incident-management product
+    whose webhooks trigger downstream paging and automation, that is a material gap.
+delivery:
+  retry_policy: undocumented
+  ordering: undocumented
+  at_least_once: unknown
+gaps:
+- No AsyncAPI or JSON Schema for any payload.
+- No documented event-name enum an agent could switch on; event names above are read from the
+  provider's prose description.
+- No signature verification, no retry policy, no delivery guarantees stated.

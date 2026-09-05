@@ -1,0 +1,94 @@
+generated: '2026-09-04'
+method: probed
+source: >-
+  Live unauthenticated probes of https://uptime.betterstack.com/api/v2,
+  https://telemetry.betterstack.com/api/v1 and https://errors.betterstack.com/api/v1 on
+  2026-09-04, plus the response codes declared in this repo's openapi/ documents.
+provider: Better Stack
+providerId: betterstack
+format: proprietary
+rfc9457: false
+media_type: application/json
+envelope:
+  shape: '{"errors": "<human-readable string>"}'
+  fields:
+  - name: errors
+    type: string
+    required: true
+    note: A prose sentence. NOT the JSON:API `errors` array, despite Better Stack stating the
+      API follows JSON:API. There is no stable machine-readable error code.
+  - name: see_docs
+    type: string
+    required: false
+    note: Present on 404 responses; a documentation URL for the failing surface.
+machine_readable_code: false
+docs: null
+docs_note: >-
+  Better Stack publishes no error reference page. /docs/uptime/api/errors/ returns 404. The
+  catalog below is therefore what was observed on the wire plus what the repo's OpenAPI
+  documents declare, not a transcription of a provider error reference.
+problem_types:
+- status: 401
+  title: Invalid Team API token
+  observed: true
+  evidence:
+    url: https://uptime.betterstack.com/api/v2/monitors
+    body: '{"errors":"Invalid Team API token. How to find your Team API token: https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/#get-an-uptime-api-token"}'
+  remediation: >-
+    Send a valid Authorization: Bearer token. Use a team-scoped Uptime API token for Uptime
+    resources or a Telemetry API token for Telemetry/Errors resources; a Global API token
+    works across all teams.
+  note: Returned identically for a missing token and an invalid token — an agent cannot
+    distinguish "no credential" from "wrong credential" from the response.
+- status: 401
+  title: Invalid Team API token (Telemetry)
+  observed: true
+  evidence:
+    url: https://telemetry.betterstack.com/api/v1/sources
+    body: '{"errors":"Invalid Team API token. How to find your Team API token: https://betterstack.com/docs/logs/api/getting-started/#obtaining-a-logtail-api-token"}'
+  remediation: Send a valid Telemetry API token.
+- status: 401
+  title: Invalid Team API token (Errors)
+  observed: true
+  evidence:
+    url: https://errors.betterstack.com/api/v1/applications
+    body: '{"errors":"Invalid Team API token. How to find your Team API token: https://betterstack.com/docs/logs/api/getting-started/#obtaining-a-logtail-api-token"}'
+  remediation: Send a valid Telemetry API token — the Errors API shares the Telemetry token type.
+- status: 404
+  title: Endpoint does not exist
+  observed: true
+  evidence:
+    url: https://uptime.betterstack.com/api/v2/nonexistent-xyz
+    body: '{"errors":"Endpoint GET /api/v2/nonexistent-xyz does not exist.","see_docs":"https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/"}'
+  remediation: Check the method and path against the API reference linked in see_docs.
+  note: >-
+    Routing 404s are returned BEFORE authentication is evaluated, so an unauthenticated caller
+    can enumerate which paths exist. That is also why every path probed above that returned
+    401 is a confirmed live endpoint.
+- status: 401
+  title: MCP unauthorized
+  observed: true
+  evidence:
+    url: https://mcp.betterstack.com
+    body: '{"error":"unauthorized"}'
+    www_authenticate: Bearer realm="mcp", resource_metadata="https://mcp.betterstack.com/.well-known/oauth-protected-resource"
+  remediation: Complete the OAuth flow at https://betterstack.com/oauth/authorize or send a
+    Better Stack API token as a bearer credential.
+  note: >-
+    The MCP surface uses a DIFFERENT envelope key from the REST surface — `error` (singular,
+    RFC 6750 style) rather than `errors`. A client written against one will not parse the other.
+- status: 401
+  title: MCP invalid token
+  observed: true
+  evidence:
+    url: https://betterstack.com/mcp
+    body: '{"error":"invalid_token"}'
+  remediation: Refresh or reissue the bearer credential.
+declared_but_unobserved:
+  note: >-
+    The four OpenAPI documents in openapi/ declare ONLY success responses (200/201/204). No
+    4xx or 5xx response is modelled anywhere in the contract, so a generated client has no
+    error type at all. This is a gap in the reconstructed spec and in what Better Stack
+    documents — not a claim that these statuses do not occur.
+  statuses_declared_in_openapi: [200, 201, 204]
+  statuses_absent_from_openapi: [400, 401, 403, 404, 422, 429, 500]

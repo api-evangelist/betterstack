@@ -1,0 +1,68 @@
+generated: '2026-09-04'
+method: searched
+source: https://betterstack.com/tag/changelog
+provider: Better Stack
+providerId: betterstack
+scheme: numbered issues — "Changelog #N" — each with a title, publication date and a short summary
+cadence: irregular; roughly monthly through 2025, then a nine-month gap to #15
+current: 'Changelog #15'
+current_date: '2026-08-10'
+machine_readable_feed: false
+feed_note: >-
+  The changelog is a tag page on the marketing site, not a dedicated release-notes surface,
+  and no JSON or Atom feed for it was found. It records PRODUCT releases; there is no separate
+  API changelog, so a breaking API change would have to be inferred from a product post.
+entries:
+- version: 'Changelog #15'
+  date: '2026-08-10'
+  title: Prompt a dashboard in 60 seconds
+  highlights: Connect a database, AWS, GCP, or Azure and instantly get pre-made dashboards.
+  breaking: false
+- version: 'Changelog #14'
+  date: '2025-11-13'
+  title: Incident filtering
+  highlights: Filter by status, duration, affected resource, and more.
+  breaking: false
+- version: 'Changelog #13'
+  date: '2025-10-18'
+  title: On-call scheduling
+  highlights: On-call schedules are now more flexible and easier to adjust.
+  breaking: false
+- version: 'Changelog #12'
+  date: '2025-09-15'
+  title: MCP server
+  highlights: >-
+    Get an extra pair of hands when resolving incidents. This is the release that shipped
+    https://mcp.betterstack.com — the agent surface now catalogued in mcp/betterstack-mcp.yml.
+  breaking: false
+- version: 'Changelog #11'
+  date: '2025-08-08'
+  title: Microsoft Teams integration
+  highlights: Handle your entire incident management process from initial report to final
+    resolution.
+  breaking: false
+- version: 'Changelog #10'
+  date: '2025-07-23'
+  title: Dashboard alerts
+  highlights: Improved anomaly detection and streamlined alert setup using multi-source alerts.
+  breaking: false
+- version: 'Changelog #9'
+  date: '2025-07-22'
+  title: Advanced data options for everyone
+  highlights: Choose where your telemetry data is stored.
+  breaking: false
+- version: 'Changelog #8'
+  date: '2025-07-07'
+  title: Filter by patterns and services
+  highlights: Find the logs you need faster with pattern-based filtering and service discovery.
+  breaking: false
+- version: 'Changelog #7'
+  date: '2025-06-18'
+  title: Control your log ingestion
+  highlights: Filter, transform, and redact incoming logs at ingest directly in Better Stack.
+  breaking: false
+- version: 'Changelog #6'
+  date: '2025-05-13'
+  title: Always know who's on-call
+  highlights: Quickly view all schedules at once for multiple on-call rotations or teams.
+  breaking: false

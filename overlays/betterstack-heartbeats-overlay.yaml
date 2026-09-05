@@ -1,0 +1,212 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Better Stack Uptime Heartbeats API
+  version: 1.0.0
+extends: betterstack-heartbeats-api-openapi.yml
+x-generated: '2026-09-04'
+x-method: generated
+x-source: Better Stack public documentation and live unauthenticated probes, 2026-09-04. Enhancements
+  only; the underlying OpenAPI is not mutated.
+actions:
+- target: $.info
+  description: Record what API Evangelist verified on the wire and in the docs that the reconstructed
+    contract does not state.
+  update:
+    x-provenance:
+      contract-source: reconstruction from public documentation by API Evangelist; Better Stack publishes
+        no OpenAPI
+      verified: '2026-09-04'
+      verified-against:
+      - https://betterstack.com/docs/uptime/api
+      - https://betterstack.com/docs/uptime/api/pagination/
+      - live unauthenticated probes of https://uptime.betterstack.com/api/v2
+    x-conventions: conventions/betterstack-conventions.yml
+    x-error-catalog: errors/betterstack-problem-types.yml
+    x-lifecycle: lifecycle/betterstack-lifecycle.yml
+    x-data-model: data-model/betterstack-data-model.yml
+    x-idempotency:
+      coverage: none
+      note: No Idempotency-Key or equivalent replay protection is documented on any Better Stack write
+        operation. A retried create produces a duplicate.
+    x-rate-limits:
+      documented: false
+      note: Better Stack publishes no rate limits and returned no RateLimit-*, X-RateLimit-* or Retry-After
+        header on any probed response.
+    x-mcp-server:
+      url: https://mcp.betterstack.com
+      note: Better Stack ships a first-party remote MCP server whose tool surface is far wider than this
+        REST contract. See mcp/betterstack-mcp.yml and mcp/betterstack-tool-crosswalk.yml.
+- target: $.components.parameters.PerPage
+  description: Correct the per_page bound. The reconstructed spec caps per_page at 50; Better Stack's
+    pagination documentation states the default is 50 and the MAXIMUM is 250.
+  update:
+    description: Number of resources per page. Default 50, maximum 250.
+    schema:
+      type: integer
+      minimum: 1
+      maximum: 250
+      default: 50
+- target: $.components.parameters.Page
+  description: Document the page parameter as Better Stack states it.
+  update:
+    description: Page to retrieve, starting from 1.
+    schema:
+      type: integer
+      minimum: 1
+      default: 1
+- target: $.paths['/heartbeats'].get.responses
+  description: Add the error responses observed live for listHeartbeats; the reconstructed contract declares
+    success responses only, so a generated client has no error type.
+  update:
+    '401':
+      description: Invalid or missing Team API token. Observed live 2026-09-04. The same body is returned
+        for a missing credential and a wrong one.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BetterStackError'
+          example:
+            errors: 'Invalid Team API token. How to find your Team API token: https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/#get-an-uptime-api-token'
+    '404':
+      description: Endpoint or resource not found. Routing 404s are returned before authentication is
+        evaluated.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BetterStackError'
+          example:
+            errors: Endpoint GET /api/v2/nonexistent-xyz does not exist.
+            see_docs: https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/
+- target: $.paths['/heartbeats'].post.responses
+  description: Add the error responses observed live for createHeartbeat; the reconstructed contract declares
+    success responses only, so a generated client has no error type.
+  update:
+    '401':
+      description: Invalid or missing Team API token. Observed live 2026-09-04. The same body is returned
+        for a missing credential and a wrong one.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BetterStackError'
+          example:
+            errors: 'Invalid Team API token. How to find your Team API token: https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/#get-an-uptime-api-token'
+    '404':
+      description: Endpoint or resource not found. Routing 404s are returned before authentication is
+        evaluated.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BetterStackError'
+          example:
+            errors: Endpoint GET /api/v2/nonexistent-xyz does not exist.
+            see_docs: https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/
+- target: $.paths['/heartbeats/{id}'].get.responses
+  description: Add the error responses observed live for getHeartbeat; the reconstructed contract declares
+    success responses only, so a generated client has no error type.
+  update:
+    '401':
+      description: Invalid or missing Team API token. Observed live 2026-09-04. The same body is returned
+        for a missing credential and a wrong one.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BetterStackError'
+          example:
+            errors: 'Invalid Team API token. How to find your Team API token: https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/#get-an-uptime-api-token'
+    '404':
+      description: Endpoint or resource not found. Routing 404s are returned before authentication is
+        evaluated.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BetterStackError'
+          example:
+            errors: Endpoint GET /api/v2/nonexistent-xyz does not exist.
+            see_docs: https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/
+- target: $.paths['/heartbeats/{id}'].patch.responses
+  description: Add the error responses observed live for updateHeartbeat; the reconstructed contract declares
+    success responses only, so a generated client has no error type.
+  update:
+    '401':
+      description: Invalid or missing Team API token. Observed live 2026-09-04. The same body is returned
+        for a missing credential and a wrong one.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BetterStackError'
+          example:
+            errors: 'Invalid Team API token. How to find your Team API token: https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/#get-an-uptime-api-token'
+    '404':
+      description: Endpoint or resource not found. Routing 404s are returned before authentication is
+        evaluated.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BetterStackError'
+          example:
+            errors: Endpoint GET /api/v2/nonexistent-xyz does not exist.
+            see_docs: https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/
+- target: $.paths['/heartbeats/{id}'].delete.responses
+  description: Add the error responses observed live for deleteHeartbeat; the reconstructed contract declares
+    success responses only, so a generated client has no error type.
+  update:
+    '401':
+      description: Invalid or missing Team API token. Observed live 2026-09-04. The same body is returned
+        for a missing credential and a wrong one.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BetterStackError'
+          example:
+            errors: 'Invalid Team API token. How to find your Team API token: https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/#get-an-uptime-api-token'
+    '404':
+      description: Endpoint or resource not found. Routing 404s are returned before authentication is
+        evaluated.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BetterStackError'
+          example:
+            errors: Endpoint GET /api/v2/nonexistent-xyz does not exist.
+            see_docs: https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/
+- target: $.paths['/heartbeats/{id}/availability'].get.responses
+  description: Add the error responses observed live for getHeartbeatAvailability; the reconstructed contract
+    declares success responses only, so a generated client has no error type.
+  update:
+    '401':
+      description: Invalid or missing Team API token. Observed live 2026-09-04. The same body is returned
+        for a missing credential and a wrong one.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BetterStackError'
+          example:
+            errors: 'Invalid Team API token. How to find your Team API token: https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/#get-an-uptime-api-token'
+    '404':
+      description: Endpoint or resource not found. Routing 404s are returned before authentication is
+        evaluated.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BetterStackError'
+          example:
+            errors: Endpoint GET /api/v2/nonexistent-xyz does not exist.
+            see_docs: https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/
+- target: $.components.schemas
+  description: Declare the proprietary error envelope observed on the wire. It is NOT the JSON:API errors
+    array and NOT RFC 9457 problem+json, despite Better Stack stating the API follows JSON:API.
+  update:
+    BetterStackError:
+      type: object
+      description: Better Stack's error envelope. `errors` is a human-readable STRING, not an array of
+        error objects, so there is no machine-readable error code to branch on.
+      required:
+      - errors
+      properties:
+        errors:
+          type: string
+          description: Human-readable failure reason.
+        see_docs:
+          type: string
+          format: uri
+          description: Documentation URL for the failing surface. Present on 404 responses.

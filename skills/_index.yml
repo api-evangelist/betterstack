@@ -1,0 +1,50 @@
+generated: '2026-09-04'
+method: generated
+provider: Better Stack
+providerId: betterstack
+source: >-
+  Written by the API Evangelist enrichment pipeline from the operationIds in this repo's
+  openapi/ documents and the runtime semantics captured in
+  conventions/betterstack-conventions.yml. Better Stack publishes no AGENTS.md, no /skills
+  surface and no .well-known/skills.json — all probed 2026-09-04, all 404 — so these are ours,
+  not theirs.
+caveat: >-
+  The OpenAPI these skills are grounded in is an API Evangelist reconstruction from Better
+  Stack's public documentation, and says so in its own info.description. Every operationId
+  named below exists in this repo's specs; verify request bodies against
+  https://betterstack.com/docs/uptime/api before running any write flow against production.
+skills:
+- name: betterstack-provision-uptime-monitor
+  file: betterstack-provision-uptime-monitor.md
+  api: Better Stack Monitors API
+  writes: true
+  operations: [createMonitor, getMonitor, listMonitors, getMonitorAvailability]
+- name: betterstack-triage-and-resolve-incident
+  file: betterstack-triage-and-resolve-incident.md
+  api: Better Stack Incidents API
+  writes: true
+  high_consequence: true
+  note: Escalation pages a human and cannot be recalled; acknowledgement cannot be undone;
+    resolution is reversible for 24 hours only.
+  operations: [listIncidents, getIncident, getIncidentTimeline, acknowledgeIncident,
+    escalateIncident, resolveIncident, reopenIncident]
+- name: betterstack-cover-a-cron-job-with-a-heartbeat
+  file: betterstack-cover-a-cron-job-with-a-heartbeat.md
+  api: Better Stack Heartbeats API
+  writes: true
+  operations: [listHeartbeats, createHeartbeat, getHeartbeat, getHeartbeatAvailability,
+    updateHeartbeat]
+- name: betterstack-report-service-availability
+  file: betterstack-report-service-availability.md
+  api: Better Stack Monitors API
+  writes: false
+  operations: [listMonitors, getMonitor, getMonitorAvailability, getMonitorResponseTimes,
+    listHeartbeats, getHeartbeatAvailability]
+cross_cutting:
+  auth: Bearer token — Uptime or Global API token for all four skills.
+  idempotency: none — no Idempotency-Key on any write; pre-check before every create.
+  errors: >-
+    A single `errors` string member — no machine-readable code, not RFC 9457, not the JSON:API
+    errors array.
+  pagination: page / per_page (default 50, max 250) with pagination.first/last/prev/next.
+  rate_limits: undocumented; no headers emitted.

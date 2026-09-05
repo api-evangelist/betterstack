@@ -1,11 +1,14 @@
 aid: betterstack
 name: Better Stack
 description: >-
-  Better Stack is a comprehensive infrastructure monitoring and observability
-  platform combining uptime monitoring, log management, incident management,
-  status pages, and AI-powered site reliability tools. This is an alias entry
-  for the better-stack repository. See https://github.com/api-evangelist/better-stack
-  for the full API profile with OpenAPI specs, capabilities, and vocabulary.
+  Better Stack is an infrastructure monitoring and observability platform that combines uptime
+  monitoring, heartbeat monitoring for scheduled jobs, incident management with on-call paging
+  and escalation policies, public and private status pages, log/trace/metric telemetry queried
+  with ClickHouse SQL, error tracking with session replay, and an AI SRE for automated root
+  cause analysis. It is OpenTelemetry-native on ingestion — OTLP/HTTP endpoints for logs,
+  traces and metrics — and publishes three REST management surfaces (Uptime v2, Telemetry v1,
+  Errors v1) declared in its own RFC 9727 /.well-known/api-catalog, alongside a first-party
+  remote MCP server at mcp.betterstack.com exposing roughly 106 agent tools behind OAuth 2.1.
 type: Index
 deliveryModel:
   model: saas
@@ -26,13 +29,13 @@ accessModel:
   try_now: true
   public: false
   label: Freemium · Self-serve signup
-  confidence: medium
+  confidence: high
   source:
   - plans
   - authentication
   - security
-  generated: '2026-09-03'
-  method: derived
+  generated: '2026-09-04'
+  method: searched
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/betterstack.png
 tags:
   - Observability
@@ -42,85 +45,182 @@ tags:
   - Monitoring
   - Status Pages
   - On-Call
+  - Error Tracking
+  - OpenTelemetry
+  - Model Context Protocol
 url: >-
   https://raw.githubusercontent.com/api-evangelist/betterstack/refs/heads/main/apis.yml
 created: '2026-03-25'
-modified: '2026-04-19'
+modified: '2026-09-04'
 specificationVersion: '0.23'
 apis:
 - aid: betterstack:betterstack-heartbeats-api
   name: Better Stack Heartbeats API
-  description: The Heartbeats API from Better Stack — 3 operation(s) for heartbeats.
-  humanURL: https://betterstack.com/docs/uptime/api/getting-started/
+  description: The Heartbeats API from Better Stack — create and manage heartbeat monitors that
+    alert when a cron job or background task stops reporting.
+  humanURL: https://betterstack.com/docs/uptime/api
   baseURL: https://uptime.betterstack.com/api/v2
   tags:
   - Heartbeats
   properties:
   - type: OpenAPI
     url: openapi/betterstack-heartbeats-api-openapi.yml
+  - type: Overlay
+    url: overlays/betterstack-heartbeats-overlay.yaml
   - type: Documentation
-    url: https://betterstack.com/docs/uptime/api/getting-started/
+    url: https://betterstack.com/docs/uptime/api
   - type: APIReference
-    url: https://betterstack.com/docs/uptime/api/monitors/
+    url: https://betterstack.com/docs/uptime/api/heartbeats/
 - aid: betterstack:betterstack-incidents-api
   name: Better Stack Incidents API
-  description: The Incidents API from Better Stack — 7 operation(s) for incidents.
-  humanURL: https://betterstack.com/docs/uptime/api/getting-started/
+  description: The Incidents API from Better Stack — create, acknowledge, escalate, resolve and
+    reopen incidents, and read the incident timeline.
+  humanURL: https://betterstack.com/docs/uptime/api
   baseURL: https://uptime.betterstack.com/api/v2
   tags:
   - Incidents
   properties:
   - type: OpenAPI
     url: openapi/betterstack-incidents-api-openapi.yml
+  - type: Overlay
+    url: overlays/betterstack-incidents-overlay.yaml
   - type: Documentation
-    url: https://betterstack.com/docs/uptime/api/getting-started/
+    url: https://betterstack.com/docs/uptime/api
   - type: APIReference
-    url: https://betterstack.com/docs/uptime/api/monitors/
+    url: https://betterstack.com/docs/uptime/api/incidents/
 - aid: betterstack:betterstack-monitors-api
   name: Better Stack Monitors API
-  description: The Monitors API from Better Stack — 4 operation(s) for monitors.
-  humanURL: https://betterstack.com/docs/uptime/api/getting-started/
+  description: The Monitors API from Better Stack — create and manage uptime monitors and read
+    their availability and response-time series.
+  humanURL: https://betterstack.com/docs/uptime/api
   baseURL: https://uptime.betterstack.com/api/v2
   tags:
   - Monitors
   properties:
   - type: OpenAPI
     url: openapi/betterstack-monitors-api-openapi.yml
+  - type: Overlay
+    url: overlays/betterstack-monitors-overlay.yaml
   - type: Documentation
-    url: https://betterstack.com/docs/uptime/api/getting-started/
+    url: https://betterstack.com/docs/uptime/api
   - type: APIReference
     url: https://betterstack.com/docs/uptime/api/monitors/
 - aid: betterstack:betterstack-status-pages-api
   name: Better Stack Status Pages API
-  description: The Status Pages API from Better Stack — 3 operation(s) for status pages.
-  humanURL: https://betterstack.com/docs/uptime/api/getting-started/
+  description: The Status Pages API from Better Stack — create and manage public and private
+    status pages and the resources shown on them.
+  humanURL: https://betterstack.com/docs/uptime/api
   baseURL: https://uptime.betterstack.com/api/v2
   tags:
   - Status Pages
   properties:
   - type: OpenAPI
     url: openapi/betterstack-status-pages-api-openapi.yml
+  - type: Overlay
+    url: overlays/betterstack-status-pages-overlay.yaml
   - type: Documentation
-    url: https://betterstack.com/docs/uptime/api/getting-started/
+    url: https://betterstack.com/docs/uptime/api
   - type: APIReference
-    url: https://betterstack.com/docs/uptime/api/monitors/
+    url: https://betterstack.com/docs/uptime/api/status-pages/
+- aid: betterstack:betterstack-telemetry-api
+  name: Better Stack Telemetry API
+  description: The Telemetry API from Better Stack — manage log, trace and metric sources,
+    fields, metric expressions, dashboards, charts and chart alerts. Declared by Better Stack's
+    own /.well-known/api-catalog; no OpenAPI is published for it and none has been
+    reconstructed, so this entry carries documentation links only.
+  humanURL: https://betterstack.com/docs/logs/api
+  baseURL: https://telemetry.betterstack.com/api/v1
+  tags:
+  - Logs
+  - Telemetry
+  - Metrics
+  - Tracing
+  properties:
+  - type: Documentation
+    url: https://betterstack.com/docs/logs/api
+  - type: APIReference
+    url: https://betterstack.com/docs/logs/api
+- aid: betterstack:betterstack-errors-api
+  name: Better Stack Errors API
+  description: The Errors API from Better Stack — manage error-tracking applications,
+    application groups and releases, and triage error patterns and exceptions. Declared by
+    Better Stack's own /.well-known/api-catalog; no OpenAPI is published for it and none has
+    been reconstructed, so this entry carries documentation links only.
+  humanURL: https://betterstack.com/docs/errors/api
+  baseURL: https://errors.betterstack.com/api/v1
+  tags:
+  - Error Tracking
+  - Exceptions
+  properties:
+  - type: Documentation
+    url: https://betterstack.com/docs/errors/api
+  - type: APIReference
+    url: https://betterstack.com/docs/errors/api
 common:
+  - type: Website
+    url: https://betterstack.com/
   - type: AgenticAccess
     url: agentic-access/betterstack-agentic-access.yml
+  - type: MCPServer
+    url: mcp/betterstack-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/betterstack-tool-crosswalk.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: LLMsTxt
+    url: llms/betterstack-llms.txt
+  - type: WellKnown
+    url: well-known/betterstack-well-known.yml
+  - type: Conformance
+    url: conformance/betterstack-conformance.yml
+  - type: Compliance
+    url: security/betterstack-trust-center.yml
   - type: TrustCenter
     url: security/betterstack-trust-center.yml
+  - type: Security
+    url: security/betterstack-vulnerability-disclosure.yml
   - type: VulnerabilityDisclosure
     url: security/betterstack-vulnerability-disclosure.yml
   - type: DomainSecurity
     url: security/betterstack-domain-security.yml
   - type: Authentication
     url: authentication/betterstack-authentication.yml
+  - type: OAuthScopes
+    url: scopes/betterstack-scopes.yml
+  - type: Conventions
+    url: conventions/betterstack-conventions.yml
+  - type: ErrorCatalog
+    url: errors/betterstack-problem-types.yml
+  - type: Lifecycle
+    url: lifecycle/betterstack-lifecycle.yml
+  - type: DataModel
+    url: data-model/betterstack-data-model.yml
+  - type: Webhooks
+    url: asyncapi/betterstack-webhooks.yml
+  - type: Packages
+    url: packages/betterstack-packages.yml
+  - type: SDKs
+    url: packages/betterstack-packages.yml
+  - type: Plans
+    url: plans/betterstack-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/betterstack-rate-limits.yml
+  - type: FinOps
+    url: finops/betterstack-finops.yml
+  - type: ChangeLog
+    url: changelog/betterstack-changelog.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/betterstack
   - type: Portal
     url: https://betterstack.com/docs/
+  - type: DeveloperPortal
+    url: https://betterstack.com/docs/
+  - type: Documentation
+    url: https://betterstack.com/docs/
+  - type: APIReference
+    url: https://betterstack.com/docs/uptime/api
   - type: GettingStarted
-    url: https://betterstack.com/docs/uptime/api/getting-started/
+    url: https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/
   - type: Pricing
     url: https://betterstack.com/pricing
   - type: StatusPage
@@ -131,6 +231,16 @@ common:
     url: https://betterstack.com/tag/changelog
   - type: GitHubOrganization
     url: https://github.com/BetterStackHQ
+  - type: Support
+    url: https://betterstack.com/help
+  - type: SignUp
+    url: https://betterstack.com/users/sign-up
+  - type: Login
+    url: https://betterstack.com/users/sign-in
+  - type: TermsOfService
+    url: https://betterstack.com/terms
+  - type: PrivacyPolicy
+    url: https://betterstack.com/privacy
   - type: Features
     data:
       - name: Uptime Monitoring
@@ -143,18 +253,29 @@ common:
         description: Public and private status pages with custom domains and real-time component status.
       - name: Log Management
         description: Collect, search, and visualize logs across your infrastructure stack.
+      - name: Error Tracking
+        description: Two-layer error tracking — deduplicated error patterns over individual exceptions — with session replay.
       - name: AI SRE
         description: AI-powered root cause analysis for automated incident investigation.
+      - name: MCP Server
+        description: First-party remote MCP server at mcp.betterstack.com exposing ~106 agent tools across Uptime, Telemetry and Errors behind OAuth 2.1.
   - type: Integrations
     data:
       - name: Slack
         description: Receive incident alerts in Slack channels.
+      - name: Microsoft Teams
+        description: Run incident management from initial report to resolution inside Teams.
       - name: PagerDuty
         description: Forward incidents to PagerDuty.
       - name: Terraform
-        description: Manage Better Stack resources as infrastructure as code.
+        description: Manage Better Stack resources as infrastructure as code via the first-party BetterStackHQ providers.
       - name: OpenTelemetry
-        description: Send metrics, logs, and traces using OpenTelemetry exporters.
+        description: Send logs, metrics and traces over OTLP/HTTP to $INGESTING_HOST/v1/logs, /v1/traces and /v1/metrics.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-09-04'
+  status: enriched
+  artifacts_added: 25
+  pass: local-v3

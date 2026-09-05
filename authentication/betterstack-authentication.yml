@@ -1,15 +1,95 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/betterstack-openapi.yml
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/,
+  https://betterstack.com/docs/logs/api/getting-started/,
+  https://betterstack.com/docs/errors/api/,
+  https://betterstack.com/docs/getting-started/integrations/mcp/,
+  https://betterstack.com/docs/logs/open-telemetry/, the RFC 8414 and RFC 9728 discovery
+  documents saved under well-known/, and live unauthenticated probes on 2026-09-04. Upgraded
+  from the derived profile that read only the bearerAuth scheme out of openapi/.
+docs: https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/
+provider: Better Stack
+providerId: betterstack
 summary:
   types:
   - http
+  - oauth2
 schemes:
 - name: bearerAuth
   type: http
   scheme: bearer
-  description: |-
-    Bearer token. Provide either a Global API Token (account-wide) or a
-    team-scoped Uptime API Token. Issued from Better Stack → API tokens.
+  surface: REST — Uptime v2, Telemetry v1, Errors v1
+  description: >-
+    Static bearer token sent as `Authorization: Bearer $TOKEN`. Better Stack calls this "the
+    Bearer Authentication standard". This is the only credential the REST APIs accept.
+  token_types:
+  - name: Global API token
+    scope: All teams in the organization; manages anything in Better Stack.
+    issued_at: Better Stack → API tokens → Global API tokens
+  - name: Uptime API token
+    scope: One team's Uptime resources.
+    issued_at: Better Stack → API tokens → Team-based tokens → Uptime API tokens
+  - name: Telemetry API token
+    scope: One team's Telemetry resources; also accepted by the Errors API.
+    issued_at: Better Stack → API tokens → Team-based tokens
+  scoped: false
+  scope_note: >-
+    Tokens carry no OAuth scopes. The only narrowing available is choosing a team-scoped token
+    over a global one; within its team a token is unrestricted read AND write.
+  rotation_documented: false
+  expiry_documented: false
   sources:
-  - openapi/betterstack-openapi.yml
+  - https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/
+  - openapi/betterstack-monitors-api-openapi.yml
+- name: sourceToken
+  type: http
+  scheme: bearer
+  surface: OTLP ingestion
+  description: >-
+    A per-source ingestion token sent as `Authorization: Bearer $SOURCE_TOKEN` when posting
+    OTLP/HTTP to $INGESTING_HOST/v1/logs, /v1/traces and /v1/metrics. Distinct from the
+    management API tokens above — it writes telemetry in, it does not read or manage anything.
+  sources:
+  - https://betterstack.com/docs/logs/open-telemetry/
+- name: oauth2
+  type: oauth2
+  surface: MCP server (https://mcp.betterstack.com)
+  description: >-
+    OAuth 2.1 authorization-code flow with PKCE and dynamic client registration, used by the
+    Better Stack MCP server. Not available on the REST APIs.
+  flows:
+    authorizationCode:
+      authorizationUrl: https://betterstack.com/oauth/authorize
+      tokenUrl: https://betterstack.com/oauth/token
+      registrationUrl: https://betterstack.com/oauth/register
+      refreshUrl: https://betterstack.com/oauth/token
+      scopes:
+        read: Read access to Better Stack resources.
+        write: Write access to Better Stack resources.
+  pkce: S256
+  dynamic_client_registration: true
+  token_endpoint_auth_methods_supported: [none]
+  discovery:
+  - https://betterstack.com/.well-known/oauth-authorization-server
+  - https://mcp.betterstack.com/.well-known/oauth-protected-resource
+  sources:
+  - well-known/betterstack-oauth-authorization-server.json
+  - well-known/betterstack-mcp-oauth-protected-resource.json
+  - https://betterstack.com/docs/getting-started/integrations/mcp/
+  note: >-
+    The MCP server also accepts a static Better Stack API token as a bearer credential for
+    clients that cannot do OAuth.
+sso:
+  consumed: true
+  providers: [Okta, Azure AD]
+  note: >-
+    SSO is a paid Enterprise add-on for signing INTO Better Stack ($5 per user/month per the
+    pricing page). Better Stack is an SSO relying party, not an identity provider —
+    /.well-known/openid-configuration 404s on every host.
+gaps:
+- No mTLS, request signing or HMAC option on any surface.
+- No documented token rotation policy, expiry, or revocation endpoint for the static REST
+  tokens.
+- The REST tokens carry no scopes, so least-privilege is limited to team boundaries.
+- 401 responses are identical for a missing credential and an invalid one.

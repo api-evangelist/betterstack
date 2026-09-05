@@ -1,0 +1,360 @@
+generated: '2026-09-04'
+method: searched
+source: https://betterstack.com/docs/getting-started/integrations/mcp/
+provider: Better Stack
+providerId: betterstack
+name: Better Stack MCP Server
+description: >-
+  Better Stack ships a first-party remote MCP server that fronts the Uptime, Telemetry
+  (logs/traces/metrics) and Error Tracking products, plus a documentation search tool and
+  team administration. It is the widest agent surface Better Stack publishes — considerably
+  wider than the REST surface this repo holds a contract for.
+deployment:
+  mode: remote
+  endpoint: https://mcp.betterstack.com
+  auth: oauth
+  verified: probed
+  note: >-
+    Remote HTTP transport. OAuth is the documented default; a static Better Stack API token
+    may be passed instead as `Authorization: Bearer $TOKEN`. Clients without remote-HTTP
+    support are told to wrap it with the third-party `npx -y mcp-remote https://mcp.betterstack.com`
+    proxy — that is a PROXY around the same remote endpoint, not a Better Stack stdio
+    package, so mode stays `remote` and no `install:`/`package:` is recorded.
+x-evidence:
+  fetched: '2026-09-04'
+  probes:
+  - url: https://mcp.betterstack.com
+    method: POST
+    body: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+    http_status: 401
+    response: '{"error":"unauthorized"}'
+    www_authenticate: Bearer realm="mcp", resource_metadata="https://mcp.betterstack.com/.well-known/oauth-protected-resource"
+  - url: https://mcp.betterstack.com/.well-known/oauth-protected-resource
+    http_status: 200
+    file: ../well-known/betterstack-mcp-oauth-protected-resource.json
+  - url: https://betterstack.com/.well-known/oauth-authorization-server
+    http_status: 200
+    file: ../well-known/betterstack-oauth-authorization-server.json
+  - url: https://betterstack.com/mcp
+    method: POST
+    http_status: 401
+    response: '{"error":"invalid_token"}'
+    note: second live MCP-shaped endpoint on the apex host; the documented endpoint is
+      mcp.betterstack.com, so this is recorded as observed but not advertised
+oauth:
+  resource: https://mcp.betterstack.com
+  resource_name: Better Stack MCP Server
+  authorization_servers:
+  - https://betterstack.com
+  issuer: https://betterstack.com
+  authorization_endpoint: https://betterstack.com/oauth/authorize
+  token_endpoint: https://betterstack.com/oauth/token
+  registration_endpoint: https://betterstack.com/oauth/register
+  dynamic_client_registration: true
+  grant_types_supported: [authorization_code, refresh_token]
+  code_challenge_methods_supported: [S256]
+  token_endpoint_auth_methods_supported: [none]
+  scopes_supported: [read, write]
+  bearer_methods_supported: [header]
+install:
+  claude_code: claude mcp add betterstack --transport http https://mcp.betterstack.com
+  client_config: |
+    {
+      "mcpServers": {
+        "betterstack": {
+          "type": "http",
+          "url": "https://mcp.betterstack.com"
+        }
+      }
+    }
+  proxy_fallback: 'npx -y mcp-remote https://mcp.betterstack.com --header "Authorization: Bearer ${BETTERSTACK_API_TOKEN}"'
+governance:
+  tool_filtering:
+    supported: true
+    headers:
+    - name: X-MCP-Tools-Only
+      effect: allowlist — only the named tools are exposed
+      example: 'monitors,monitor,incidents'
+    - name: X-MCP-Tools-Except
+      effect: blocklist — every tool except the named ones is exposed
+      example: 'remove_dashboard,remove_chart'
+    note: >-
+      Header-level tool filtering is a genuine agent-governance control and is rare in this
+      catalog; it is what lets an operator hand an agent a read-only Better Stack.
+tools_note: >-
+  The live tools/list is auth-gated (401 unauthorized), so machine tool SLUGS and inputSchemas
+  could not be introspected anonymously. The list below is the provider's own published tool
+  catalog from the MCP docs page, recorded with the display names Better Stack uses. The only
+  machine slugs Better Stack publishes are the header examples above: monitors, monitor,
+  incidents, remove_dashboard, remove_chart. Schemas need authenticated introspection.
+tool_groups:
+- group: Documentation
+  tools:
+  - name: Search documentation
+    description: Searches Better Stack documentation and returns the contents of relevant articles.
+- group: Uptime — on-call scheduling
+  tools:
+  - name: Get on-call details
+    description: Shows who is currently on-call across all schedules.
+  - name: List on-call calendars
+    description: Information about on-call calendars and rotations.
+  - name: List on-call events
+    description: Lists upcoming shifts and schedule changes.
+  - name: Get on-call event details
+    description: Fetches details for specific on-call events.
+  - name: Get on-call rotation details
+    description: Explains how rotations are configured.
+- group: Uptime — escalation policies and severities
+  tools:
+  - name: Get available incident escalation policies
+    description: Shows available escalation targets for incidents.
+  - name: List escalation policies
+    description: Lists configured escalation rules and steps.
+  - name: Get escalation policy details
+    description: Provides detailed policy information.
+  - name: List severities
+    description: Shows incident severity levels and configurations.
+  - name: Get severity details
+    description: Explains specific severity settings.
+- group: Uptime — incidents
+  tools:
+  - name: Create incident
+    description: Reports new issues with context and metadata.
+  - name: List incidents
+    description: Finds incidents by date, status, monitor, or other criteria.
+  - name: Get incident details
+    description: Shows full incident information including error messages and screenshots.
+  - name: Get incident timeline
+    description: Displays complete incident history.
+  - name: Get incident comments
+    description: Retrieves incident comments.
+  - name: Create incident comment
+    description: Adds team collaboration comments.
+  - name: Acknowledge incident
+    description: Takes ownership of incidents to stop escalations.
+  - name: Escalate incident
+    description: Routes incidents to users, teams, schedules, or policies.
+  - name: Resolve incident
+    description: Marks incidents as fixed.
+  - name: Reopen incident
+    description: Reopens a resolved incident within 24 hours of resolution.
+- group: Uptime — monitors
+  tools:
+  - name: List monitors
+    description: Shows all monitors with filtering options.
+  - name: Get monitor details
+    description: Provides monitor configuration, status, and settings.
+  - name: Create monitor
+    description: Creates a new monitor to track the availability of a website, host, or service.
+  - name: Get monitor availability
+    description: Calculates SLA summaries and uptime percentages.
+  - name: Get monitor response times
+    description: Analyzes performance metrics and trends.
+- group: Uptime — heartbeats
+  tools:
+  - name: List heartbeats
+    description: Shows all heartbeat monitors and their status.
+  - name: Get heartbeat details
+    description: Provides heartbeat configuration and recent activity.
+  - name: Create heartbeat
+    description: Creates a new heartbeat that alerts when a cron job or background task stops reporting.
+  - name: Get heartbeat availability
+    description: Tracks uptime for scheduled tasks.
+- group: Uptime — status pages
+  tools:
+  - name: List status pages
+    description: Shows all public status pages.
+  - name: Get status page details
+    description: Provides status page configuration and current status.
+  - name: Update status page
+    description: Updates status page settings like company name, theme, layout, or custom domain.
+  - name: Get status page resources
+    description: Lists monitors and heartbeats displayed on each page.
+  - name: Add status page resource
+    description: Adds a monitor, heartbeat, or group to a status page.
+  - name: Update status page resource
+    description: Changes a resource's public name, description, widget type, or placement.
+  - name: Remove status page resource
+    description: Removes a resource from a status page.
+  - name: Get status page sections
+    description: Lists the sections of a status page.
+  - name: Create status page section
+    description: Creates a section to group status page resources under a heading.
+  - name: Update status page section
+    description: Renames a section or moves it to a new position.
+  - name: Remove status page section
+    description: Removes a section and its resources from a status page.
+  - name: Create status page report
+    description: Creates incident reports or maintenance announcements.
+  - name: Create status page report update
+    description: Adds updates to ongoing reports.
+  - name: List status page reports
+    description: Shows status reports for a specific page.
+  - name: List status page report updates
+    description: Lists updates for a specific report.
+  - name: Get status page report update details
+    description: Provides details for specific updates.
+- group: Telemetry — query
+  tools:
+  - name: Execute query
+    description: Executes a ClickHouse SQL query against telemetry data — logs, spans, metrics,
+      exceptions and replays.
+  - name: Render chart
+    description: Executes a ClickHouse SQL query and renders the result as a line, bar, or pie chart.
+  - name: Get query instructions
+    description: Instructions for building logs and spans queries.
+  - name: Get explore logs query instructions
+    description: Instructions for writing queries for the Explore logs page and live-tail charts.
+  - name: Get metric query instructions
+    description: Instructions for building metrics queries.
+  - name: Get errors query instructions
+    description: Documentation for querying error data, including the two-layer errors/exceptions
+      architecture, columns and query patterns.
+  - name: Get replays query instructions
+    description: Instructions for querying session replay data.
+  - name: Get dashboard query instructions
+    description: Instructions for writing ClickHouse queries used inside dashboard charts.
+- group: Telemetry — sources
+  tools:
+  - name: List sources
+    description: Shows all log sources with status and configuration.
+  - name: Get source details
+    description: Provides detailed source configuration and settings.
+  - name: Create source
+    description: Creates new log sources with integration guides.
+  - name: Get source fields
+    description: Discovers available fields for querying logs and spans.
+- group: Telemetry — dashboards
+  tools:
+  - name: List dashboards
+    description: Lists all dashboards with ID, name, creation and update dates.
+  - name: Get dashboard details
+    description: Detailed dashboard information including charts, sections, layout and configuration.
+  - name: List dashboard templates
+    description: Lists available dashboard templates.
+  - name: Create dashboard
+    description: Creates a new dashboard, optionally from a template or with a specific source.
+  - name: Configure dashboard
+    description: Updates a dashboard's name or source eligibility.
+  - name: Set dashboard variable
+    description: Creates or updates a dashboard variable referenced as {{name}} in chart queries.
+  - name: Remove dashboard variable
+    description: Removes a dashboard variable by name.
+  - name: Export dashboard
+    description: Exports a dashboard's full configuration as JSON.
+  - name: Import dashboard
+    description: Imports a new dashboard from a JSON configuration.
+  - name: Remove dashboard
+    description: Permanently removes a dashboard and all its associated charts.
+- group: Telemetry — charts
+  tools:
+  - name: Get chart details
+    description: Shows chart configuration, SQL queries and settings.
+  - name: Get chart building instructions
+    description: Guidance on chart types, units, axis settings and best practices.
+  - name: Add chart to dashboard
+    description: Adds a new chart with a SQL query to a dashboard.
+  - name: Configure chart
+    description: Updates a chart's name, type, query or settings.
+  - name: Remove chart
+    description: Permanently removes a chart from its dashboard.
+    slug: remove_chart
+  - name: Add dashboard section
+    description: Adds a section divider to organize charts into groups.
+  - name: Configure dashboard section
+    description: Updates a section's title, description or collapsed state.
+  - name: Remove dashboard section
+    description: Removes a section divider from a dashboard.
+  - name: Move charts
+    description: Rearranges chart positions on the dashboard grid.
+- group: Telemetry — chart alerts
+  tools:
+  - name: List chart alerts
+    description: Lists chart alerts with ID, name, chart and status.
+  - name: Get chart alert details
+    description: Shows an alert's configuration, SQL queries and current incident info.
+  - name: Get chart alert instructions
+    description: Instructions for creating and configuring chart alerts, including alert types
+      and operators.
+  - name: Create chart alert
+    description: Creates a new alert on an existing chart — threshold, relative or anomaly type.
+  - name: Configure chart alert
+    description: Updates an existing chart alert's configuration.
+  - name: Remove chart alert
+    description: Permanently removes a chart alert.
+  - name: Pause or resume chart alert
+    description: Pauses or unpauses a chart alert.
+- group: Telemetry — metrics
+  tools:
+  - name: Get metrics schema
+    description: Shows available metrics with data points and series count.
+  - name: Get metric details
+    description: Explains how to query and use specific metrics with examples.
+  - name: List metric expressions
+    description: Lists the extract-metrics-from-logs rules on a source.
+  - name: Create metric expression
+    description: Creates a new metric or label extracted from log fields.
+  - name: Update metric expression
+    description: Updates a metric expression's name, SQL expression, type or aggregations.
+  - name: Remove metric expression
+    description: Deletes a metric expression from a source.
+- group: Telemetry — infrastructure
+  tools:
+  - name: List data regions
+    description: Shows available regions for storing data.
+  - name: List clusters
+    description: Lists storage clusters for direct data access.
+  - name: List teams
+    description: Shows teams with telemetry platform access.
+  - name: Create cloud connection
+    description: Creates temporary credentials for direct ClickHouse access.
+- group: Errors — applications and releases
+  tools:
+  - name: List applications
+    description: Shows all error tracking applications with status and configuration.
+  - name: Get application details
+    description: Detailed configuration, ingestion settings and available data tables.
+  - name: Create application
+    description: Creates new error tracking applications with platform-specific integration guides.
+  - name: List releases
+    description: Shows all releases for an application with first and last seen timestamps.
+- group: Errors — triage
+  tools:
+  - name: List errors
+    description: Lists error patterns for an application with occurrence counts, affected users
+      and current state; filterable by state, release, environment or time range.
+  - name: Get error details
+    description: Type, message, call site, first occurrence and current state (unhandled,
+      unresolved, ignored, resolved, reoccurred).
+  - name: Update error state
+    description: Marks errors resolved, ignored or unresolved, with optional notification settings.
+- group: Team management
+  tools:
+  - name: List team members
+    description: Shows members of a team including pending invitations, with e-mail, name and role.
+  - name: List team roles
+    description: Lists the roles in the organization with their IDs, including custom roles.
+  - name: Invite team member
+    description: Invites someone to a team by e-mail address with an optional role.
+  - name: Change team member role
+    description: Changes an existing team member's role.
+  - name: Remove team member
+    description: Removes a member from a team or cancels a pending invitation.
+client_plugins:
+- client: Claude Code
+  repository: https://github.com/BetterStackHQ/claude-plugin
+  install: /plugin marketplace add BetterStackHQ/claude-plugin
+  config: '{"mcpServers":{"betterstack":{"type":"http","url":"https://mcp.betterstack.com"}}}'
+  note: First-party marketplace plugin; its .mcp.json points at the same remote endpoint.
+- client: Codex
+  repository: https://github.com/BetterStackHQ/codex-plugin
+- client: Cursor
+  repository: https://github.com/BetterStackHQ/cursor-plugin
+plugins_note: >-
+  Better Stack maintains a first-party plugin repository per agent client (Claude Code, Codex,
+  Cursor). Each is a thin wrapper that registers the same https://mcp.betterstack.com remote
+  endpoint — they are distribution, not additional surface, and none of them is a stdio server.
+coverage:
+  documented_tools: 106
+  groups: 16
+  introspected: false

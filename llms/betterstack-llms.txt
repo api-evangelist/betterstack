@@ -1,0 +1,108 @@
+# Better Stack
+
+> Better Stack is an infrastructure monitoring and observability platform combining uptime
+> monitoring, heartbeat monitoring for scheduled jobs, incident management and on-call paging,
+> public status pages, log/trace/metric telemetry, error tracking with session replay, and an
+> AI SRE for root-cause analysis. It is OpenTelemetry-native on ingestion and ClickHouse SQL on
+> query.
+
+Generated: 2026-09-04
+Method: generated
+Source: this repository's apis.yml and artifacts, plus Better Stack's published documentation
+and discovery documents. Better Stack does not publish its own llms.txt — /llms.txt returns 404
+on betterstack.com, www.betterstack.com, the docs paths and every API host, probed 2026-09-04.
+
+## APIs
+
+Better Stack's own /.well-known/api-catalog (RFC 9727) names three API surfaces:
+
+- [Uptime API v2](https://uptime.betterstack.com/api/v2/): monitors, heartbeats, incidents,
+  on-call, escalation policies, status pages, metadata, team members, usage, reporting.
+  Docs: https://betterstack.com/docs/uptime/api
+- [Telemetry API v1](https://telemetry.betterstack.com/api/v1/): log/trace/metric sources,
+  fields, metric expressions, dashboards, charts, alerts.
+  Docs: https://betterstack.com/docs/logs/api
+- [Errors API v1](https://errors.betterstack.com/api/v1/): applications, application groups,
+  releases, error patterns and exceptions.
+  Docs: https://betterstack.com/docs/errors/api
+
+Authentication is a bearer token on all three: `Authorization: Bearer $TOKEN`. Tokens are
+either Global (all teams) or team-scoped (Uptime API token, Telemetry API token). Responses are
+JSON and Better Stack describes them as following JSON:API.
+
+Better Stack publishes no OpenAPI document. The specs in this repository are API Evangelist
+reconstructions from the public documentation and say so in their own info.description.
+
+## Agent surface
+
+- MCP server (remote HTTP): https://mcp.betterstack.com
+  Docs: https://betterstack.com/docs/getting-started/integrations/mcp/
+  Install for Claude Code: `claude mcp add betterstack --transport http https://mcp.betterstack.com`
+  Auth: OAuth 2.1 (dynamic client registration, PKCE S256, scopes `read` and `write`), or a
+  Better Stack API token as a bearer credential.
+  ~106 documented tools across documentation search, Uptime (monitors, heartbeats, incidents,
+  on-call, escalation policies, status pages), Telemetry (ClickHouse query execution,
+  dashboards, charts, alerts, metrics, sources, infrastructure) and Errors (applications,
+  releases, error triage), plus team administration.
+  Tool filtering: `X-MCP-Tools-Only` (allowlist) and `X-MCP-Tools-Except` (blocklist) headers.
+- First-party agent-client plugins: Claude Code, Codex and Cursor, each registering the same
+  remote endpoint (github.com/BetterStackHQ/claude-plugin, /codex-plugin, /cursor-plugin).
+- No A2A agent card. /.well-known/agent-card.json and /.well-known/agent.json 404 on every host.
+
+## Discovery documents
+
+- https://betterstack.com/.well-known/api-catalog — RFC 9727/9264 linkset, HTTP 200
+- https://betterstack.com/.well-known/oauth-authorization-server — RFC 8414, HTTP 200
+- https://mcp.betterstack.com/.well-known/oauth-protected-resource — RFC 9728, HTTP 200
+- No /.well-known/security.txt on any host (404)
+- No /.well-known/openid-configuration on any host (404)
+
+## Ingestion
+
+OTLP/HTTP: POST to `$INGESTING_HOST/v1/logs`, `/v1/traces`, `/v1/metrics` with
+`Authorization: Bearer $SOURCE_TOKEN`. Docs: https://betterstack.com/docs/logs/open-telemetry/
+
+## Runtime semantics an agent needs
+
+- Pagination: `page` and `per_page` (default 50, maximum 250); response carries
+  `pagination.first/last/prev/next`. https://betterstack.com/docs/uptime/api/pagination/
+- Errors: `{"errors": "<human-readable string>"}`, plus `see_docs` on 404. NOT RFC 9457 and NOT
+  the JSON:API errors array. There is no machine-readable error code.
+- Idempotency: none. No Idempotency-Key header on any write operation. A retried create makes a
+  duplicate.
+- Rate limits: undocumented. No RateLimit-*, X-RateLimit-* or Retry-After headers observed.
+- Reversibility: a resolved incident can be reopened within 24 hours; acknowledgement and
+  escalation cannot be undone; deletes (monitor, heartbeat, status page, dashboard) are
+  permanent with no restore path.
+- Versioning: in the URI path. Both /api/v2/incidents and /api/v3/incidents answer live. No
+  published versioning or deprecation policy; no Sunset or Deprecation headers.
+- Webhooks: outbound POSTs for incident (created/acknowledged/resolved/reopened/comment),
+  monitor (created/updated/paused/unpaused/deleted) and on-call change. No signature
+  verification documented. https://betterstack.com/docs/uptime/webhooks/
+
+## Client libraries
+
+Ingestion clients only — no SDK wraps the management APIs.
+
+- JavaScript/Node: `@logtail/js`, `@logtail/node`, `@logtail/browser`, `@logtail/edge`,
+  `@logtail/pino`, `@logtail/winston`, `@logtail/bunyan`, `@logtail/next`
+- Python: `logtail-python`
+- Ruby: `logtail`, `logtail-rails`, `logtail-rack`
+- PHP: `logtail/monolog-logtail`
+- .NET: `BetterStack.Logs.Serilog`, `BetterStack.Logs.NLog`
+- Terraform: `BetterStackHQ/better-uptime`, `BetterStackHQ/logtail`
+
+## Links
+
+- Documentation: https://betterstack.com/docs/
+- Uptime API reference: https://betterstack.com/docs/uptime/api
+- Getting started with the Uptime API: https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/
+- Pricing: https://betterstack.com/pricing
+- Status: https://status.betterstack.com/
+- Changelog: https://betterstack.com/tag/changelog
+- Blog: https://betterstack.com/community/blog
+- Security: https://betterstack.com/security
+- Terms: https://betterstack.com/terms
+- Privacy: https://betterstack.com/privacy
+- GitHub: https://github.com/BetterStackHQ
+- Support: https://betterstack.com/help

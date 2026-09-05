@@ -1,0 +1,364 @@
+generated: '2026-09-04'
+method: derived
+source: >-
+  Derived from the four OpenAPI documents in openapi/ ($ref links, path parameters and
+  id-reference fields in the request schemas), cross-checked against Better Stack's published
+  MCP tool catalog and the Uptime API reference navigation
+  (https://betterstack.com/docs/uptime/api).
+provider: Better Stack
+providerId: betterstack
+caveat: >-
+  The OpenAPI documents this graph is derived from are API Evangelist reconstructions from
+  Better Stack's public documentation — they declare that in info.description — not a
+  provider-published contract. Entities and relationships confirmed by a second source (a
+  documented MCP tool or an API reference page) are marked confirmed: true; the rest are
+  marked confirmed: false and should be treated as our reading, not Better Stack's schema.
+id_convention:
+  type: opaque string
+  prefixed: false
+  note: >-
+    Resource ids are plain strings in the path (/monitors/{id}) with no type prefix — unlike
+    Stripe-style prefixed ids, a Better Stack id carries no indication of what it identifies.
+    An agent holding an id cannot tell a monitor from a heartbeat from a status page without
+    remembering where it came from.
+entities:
+- name: Monitor
+  api: Better Stack Monitors API
+  path: /monitors
+  confirmed: true
+  operations: [listMonitors, createMonitor, getMonitor, updateMonitor, deleteMonitor,
+    getMonitorResponseTimes, getMonitorAvailability]
+  description: A check against a URL, host or service. Owns availability history and response-time
+    series.
+- name: Heartbeat
+  api: Better Stack Heartbeats API
+  path: /heartbeats
+  confirmed: true
+  operations: [listHeartbeats, createHeartbeat, getHeartbeat, updateHeartbeat, deleteHeartbeat,
+    getHeartbeatAvailability]
+  description: An inverted monitor — a scheduled job pings Better Stack, and Better Stack alerts
+    when the ping does not arrive within `period` plus `grace`.
+  key_fields:
+  - name: period
+    type: integer
+    unit: seconds
+    description: Expected interval between pings.
+  - name: grace
+    type: integer
+    unit: seconds
+    description: Grace period before an incident is raised.
+  - name: policy_id
+    type: string
+    references: EscalationPolicy
+- name: Incident
+  api: Better Stack Incidents API
+  path: /incidents
+  confirmed: true
+  operations: [listIncidents, createIncident, getIncident, deleteIncident, getIncidentTimeline,
+    acknowledgeIncident, resolveIncident, reopenIncident, escalateIncident]
+  description: An open problem with a lifecycle — created → acknowledged → resolved, with reopen
+    available within 24 hours of resolution.
+  states: [created, acknowledged, resolved, reopened]
+- name: IncidentTimelineEvent
+  api: Better Stack Incidents API
+  path: /incidents/{id}/timeline
+  confirmed: true
+  operations: [getIncidentTimeline]
+  description: The append-only history of an incident.
+- name: IncidentComment
+  confirmed: true
+  confirmed_by: MCP tools "Get incident comments" / "Create incident comment"
+  in_openapi: false
+  description: Team collaboration notes attached to an incident. Present on the MCP surface and
+    on the webhook `comment` event, absent from this repo's reconstructed REST contract.
+- name: StatusPage
+  api: Better Stack Status Pages API
+  path: /status-pages
+  confirmed: true
+  operations: [listStatusPages, createStatusPage, getStatusPage, updateStatusPage,
+    deleteStatusPage, listStatusPagesInGroup]
+  description: A public or private page communicating service status.
+- name: StatusPageSection
+  confirmed: true
+  confirmed_by: MCP tools "Get status page sections" / "Create status page section"
+  in_openapi: false
+  description: A heading grouping resources on a status page.
+- name: StatusPageResource
+  confirmed: true
+  confirmed_by: MCP tools "Get status page resources" / "Add status page resource"
+  in_openapi: false
+  description: The binding of a monitor, heartbeat or group onto a status page, with its own
+    public name, description, widget type and placement.
+- name: StatusPageReport
+  confirmed: true
+  confirmed_by: MCP tools "Create status page report" / "List status page reports"
+  in_openapi: false
+  description: An incident report or maintenance announcement published on a status page.
+- name: StatusPageReportUpdate
+  confirmed: true
+  confirmed_by: MCP tools "Create status page report update" / "List status page report updates"
+  in_openapi: false
+  description: A timestamped update appended to a report.
+- name: StatusPageGroup
+  confirmed: false
+  in_openapi: true
+  path: /status-pages/group/{id}
+  description: A grouping of status pages, inferred from listStatusPagesInGroup. Better Stack's
+    own docs do not name this entity, so it is unconfirmed.
+- name: EscalationPolicy
+  confirmed: true
+  confirmed_by: MCP tools "List escalation policies" / "Get escalation policy details"; the
+    `policy_id` field on HeartbeatCreate
+  in_openapi: false
+  description: The rules deciding who is paged, in what order, after how long.
+- name: Severity
+  confirmed: true
+  confirmed_by: MCP tools "List severities" / "Get severity details"
+  in_openapi: false
+- name: OnCallCalendar
+  confirmed: true
+  confirmed_by: MCP tools "List on-call calendars" / "Get on-call rotation details"
+  in_openapi: false
+- name: OnCallEvent
+  confirmed: true
+  confirmed_by: MCP tools "List on-call events" / "Get on-call event details"
+  in_openapi: false
+- name: Team
+  confirmed: true
+  confirmed_by: MCP tools "List teams" / "List team members"; the team-scoped API token model
+  in_openapi: false
+  description: The tenancy boundary. API tokens are either global or scoped to one team.
+- name: TeamMember
+  confirmed: true
+  confirmed_by: MCP tools "List team members" / "Invite team member" / "Change team member role"
+  in_openapi: false
+- name: Role
+  confirmed: true
+  confirmed_by: MCP tool "List team roles" (including custom roles)
+  in_openapi: false
+- name: Source
+  product: Telemetry
+  confirmed: true
+  confirmed_by: MCP tools "List sources" / "Create source" / "Get source fields"
+  in_openapi: false
+  description: A log/trace/metric ingestion source. Owns fields and metric expressions.
+- name: MetricExpression
+  product: Telemetry
+  confirmed: true
+  confirmed_by: MCP tools "List metric expressions" / "Create metric expression"
+  in_openapi: false
+  description: A rule extracting a metric or label from log fields, attached to a Source.
+- name: Dashboard
+  product: Telemetry
+  confirmed: true
+  confirmed_by: MCP tools "List dashboards" / "Create dashboard" / "Export dashboard"
+  in_openapi: false
+- name: DashboardSection
+  product: Telemetry
+  confirmed: true
+  confirmed_by: MCP tools "Add dashboard section" / "Configure dashboard section"
+  in_openapi: false
+- name: DashboardVariable
+  product: Telemetry
+  confirmed: true
+  confirmed_by: MCP tools "Set dashboard variable" / "Remove dashboard variable"
+  in_openapi: false
+  description: A toolbar filter referenced as {{name}} inside chart queries.
+- name: Chart
+  product: Telemetry
+  confirmed: true
+  confirmed_by: MCP tools "Add chart to dashboard" / "Configure chart"
+  in_openapi: false
+- name: ChartAlert
+  product: Telemetry
+  confirmed: true
+  confirmed_by: MCP tools "List chart alerts" / "Create chart alert"
+  in_openapi: false
+  description: A threshold, relative or anomaly-detection alert bound to a chart; raises an
+    Incident.
+- name: DataRegion
+  product: Telemetry
+  confirmed: true
+  confirmed_by: MCP tool "List data regions"
+  in_openapi: false
+- name: Cluster
+  product: Telemetry
+  confirmed: true
+  confirmed_by: MCP tool "List clusters"
+  in_openapi: false
+- name: CloudConnection
+  product: Telemetry
+  confirmed: true
+  confirmed_by: MCP tool "Create cloud connection"
+  in_openapi: false
+  description: Temporary credentials for direct ClickHouse access to the caller's own data.
+- name: Application
+  product: Errors
+  confirmed: true
+  confirmed_by: MCP tools "List applications" / "Create application" / "Get application details"
+  in_openapi: false
+- name: Release
+  product: Errors
+  confirmed: true
+  confirmed_by: MCP tool "List releases"
+  in_openapi: false
+- name: ErrorPattern
+  product: Errors
+  confirmed: true
+  confirmed_by: MCP tools "List errors" / "Get error details" / "Update error state"
+  in_openapi: false
+  states: [unhandled, unresolved, ignored, resolved, reoccurred]
+  description: The upper layer of Better Stack's two-layer error model — a deduplicated pattern
+    aggregating individual exceptions.
+- name: Exception
+  product: Errors
+  confirmed: true
+  confirmed_by: MCP tool "Get errors query instructions" ("the two-layer architecture (errors
+    and exceptions)")
+  in_openapi: false
+  description: An individual exception occurrence beneath an ErrorPattern.
+relationships:
+- from: Monitor
+  to: Incident
+  type: has_many
+  via: monitor relationship on the incident
+  confirmed: true
+  evidence: The incident webhook payload carries `relationships.monitor`
+    (https://betterstack.com/docs/uptime/webhooks/).
+- from: Incident
+  to: IncidentTimelineEvent
+  type: has_many
+  via: /incidents/{id}/timeline
+  confirmed: true
+- from: Incident
+  to: IncidentComment
+  type: has_many
+  confirmed: true
+- from: Incident
+  to: EscalationPolicy
+  type: belongs_to
+  via: escalation target
+  confirmed: true
+  evidence: MCP tool "Get available incident escalation policies" — shows available escalation
+    targets FOR an incident.
+- from: Heartbeat
+  to: EscalationPolicy
+  type: belongs_to
+  via: policy_id
+  confirmed: true
+  evidence: HeartbeatCreate.policy_id in openapi/betterstack-heartbeats-api-openapi.yml.
+- from: Heartbeat
+  to: Incident
+  type: has_many
+  confirmed: false
+  note: A missed heartbeat raises an incident, but no id-reference field confirms the link.
+- from: EscalationPolicy
+  to: OnCallCalendar
+  type: has_many
+  confirmed: false
+- from: OnCallCalendar
+  to: OnCallEvent
+  type: has_many
+  confirmed: true
+- from: StatusPage
+  to: StatusPageSection
+  type: has_many
+  confirmed: true
+- from: StatusPageSection
+  to: StatusPageResource
+  type: has_many
+  confirmed: true
+  evidence: MCP tool "Remove status page section" — "Removes a section and its resources".
+- from: StatusPageResource
+  to: Monitor
+  type: belongs_to
+  confirmed: true
+  evidence: MCP tool "Add status page resource" — "Adds a monitor, heartbeat, or group".
+- from: StatusPageResource
+  to: Heartbeat
+  type: belongs_to
+  confirmed: true
+- from: StatusPage
+  to: StatusPageReport
+  type: has_many
+  confirmed: true
+- from: StatusPageReport
+  to: StatusPageReportUpdate
+  type: has_many
+  confirmed: true
+- from: StatusPageGroup
+  to: StatusPage
+  type: has_many
+  via: /status-pages/group/{id}
+  confirmed: false
+- from: Team
+  to: TeamMember
+  type: has_many
+  confirmed: true
+- from: TeamMember
+  to: Role
+  type: belongs_to
+  confirmed: true
+- from: Source
+  to: MetricExpression
+  type: has_many
+  confirmed: true
+  evidence: MCP tool "List metric expressions" — "the extract-metrics-from-logs rules ON A
+    SOURCE".
+- from: Dashboard
+  to: DashboardSection
+  type: has_many
+  confirmed: true
+- from: Dashboard
+  to: Chart
+  type: has_many
+  confirmed: true
+  evidence: MCP tool "Remove dashboard" — "Permanently removes a dashboard AND ALL ITS
+    ASSOCIATED CHARTS".
+- from: Dashboard
+  to: DashboardVariable
+  type: has_many
+  confirmed: true
+- from: Dashboard
+  to: Source
+  type: belongs_to
+  via: source eligibility
+  confirmed: true
+  evidence: MCP tool "Configure dashboard" — "Updates a dashboard's name or source eligibility".
+- from: Chart
+  to: ChartAlert
+  type: has_many
+  confirmed: true
+- from: ChartAlert
+  to: Incident
+  type: has_many
+  confirmed: true
+  evidence: MCP tool "Get chart alert details" — shows the alert's "current incident info".
+- from: Application
+  to: Release
+  type: has_many
+  confirmed: true
+- from: Application
+  to: ErrorPattern
+  type: has_many
+  confirmed: true
+- from: ErrorPattern
+  to: Exception
+  type: has_many
+  confirmed: true
+- from: ErrorPattern
+  to: Release
+  type: belongs_to
+  via: release filter
+  confirmed: true
+  evidence: MCP tool "List errors" supports "filtering by state, release, environment, or time
+    range".
+coverage:
+  entities: 32
+  in_openapi: 6
+  confirmed_from_provider_docs: 29
+  relationships: 28
+  note: >-
+    Six of 32 entities appear in this repo's OpenAPI. The Better Stack object graph is roughly
+    five times wider than the contract, and the whole Telemetry and Errors halves of it are
+    reachable only through the MCP server or undocumented REST calls.

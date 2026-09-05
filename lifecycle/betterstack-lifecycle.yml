@@ -1,0 +1,68 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://betterstack.com/docs/uptime/api, https://betterstack.com/tag/changelog,
+  https://status.betterstack.com/, https://betterstack.com/terms, plus live probes of
+  /api/v2 and /api/v3 on uptime.betterstack.com (2026-09-04).
+provider: Better Stack
+providerId: betterstack
+versioning:
+  scheme: uri-path
+  current_versions:
+    uptime: v2
+    uptime_incidents: v3
+    telemetry: v1
+    errors: v1
+  policy_published: false
+  note: >-
+    Better Stack publishes no written versioning policy. Two Uptime versions answer
+    simultaneously — GET /api/v2/incidents and GET /api/v3/incidents both return 401 rather
+    than 404 — so v2 is still routed, but nothing states which is current, which is
+    superseded, or how long v2 will remain.
+deprecation:
+  policy_published: false
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    No deprecation policy, no notice period, and no RFC 8594 Sunset or Deprecation header was
+    observed on any probed response. https://betterstack.com/docs/uptime/api/deprecations/ and
+    /docs/uptime/api/errors/ both 404. A consumer has no published warning mechanism for a
+    breaking change.
+  deprecated_operations: []
+  deprecated_operations_note: >-
+    No operation in this repo's four OpenAPI documents carries a `deprecated: true` flag.
+sla:
+  published: false
+  url: https://betterstack.com/terms
+  note: >-
+    Better Stack sells uptime monitoring and SLA reporting as a product, and its pricing page
+    lists an Enterprise tier, but no public API SLA or uptime commitment document was found on
+    the marketing or docs surface. Contractual terms are at /terms.
+status_page:
+  url: https://status.betterstack.com/
+  status: 200
+  machine_readable: false
+  note: >-
+    Better Stack runs its own status page on its own product. The status page host is an SPA
+    that answers 200 with the same HTML shell for every path, so no machine-readable status
+    feed (/api/v2/status.json, /history.json) could be confirmed — an agent must scrape it.
+  incident_history_captured: blogs/
+  incident_history_note: >-
+    This repo holds 21 status-page incident write-ups harvested into blogs/, dated 2025-04-20
+    through 2026-08-09 — degraded telemetry queries, uptime dashboard degradation, DDoS on
+    status pages, an AWS Direct Connect outage, and an rsyslog ingestion issue.
+changelog:
+  url: https://betterstack.com/tag/changelog
+  status: 200
+  scheme: numbered issues ("Changelog #N") with a publication date
+  cadence: irregular
+  see: changelog/betterstack-changelog.yml
+lifecycle_signals:
+  api_surface_growing: true
+  note: >-
+    The direction of travel is toward the agent surface, not the REST surface. Changelog #12
+    (2025-09-15) shipped the MCP server; the MCP catalog now exposes ~106 tools across Uptime,
+    Telemetry and Errors while the REST management APIs remain undocumented for rate limits,
+    errors, deprecation and versioning, and have no SDK in any language.
