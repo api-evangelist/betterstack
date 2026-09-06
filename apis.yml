@@ -157,6 +157,12 @@ apis:
   - type: APIReference
     url: https://betterstack.com/docs/errors/api
 common:
+  - type: PostmanWorkspace
+    url: https://www.postman.com/kinlaneapi/better-stack/overview
+  - type: SpectralRules
+    url: https://raw.githubusercontent.com/api-evangelist/better-stack/refs/heads/main/rules/better-stack-spectral-rules.yml
+  - type: Vocabulary
+    url: https://raw.githubusercontent.com/api-evangelist/better-stack/refs/heads/main/vocabulary/better-stack-vocabulary.yaml
   - type: Website
     url: https://betterstack.com/
   - type: AgenticAccess
