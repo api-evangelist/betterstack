@@ -4,22 +4,25 @@ source: https://betterstack.com/docs/getting-started/integrations/mcp/
 provider: Better Stack
 providerId: betterstack
 name: Better Stack MCP Server
-description: >-
-  Better Stack ships a first-party remote MCP server that fronts the Uptime, Telemetry
-  (logs/traces/metrics) and Error Tracking products, plus a documentation search tool and
-  team administration. It is the widest agent surface Better Stack publishes — considerably
-  wider than the REST surface this repo holds a contract for.
+description: Better Stack ships a first-party remote MCP server that fronts the Uptime, Telemetry (logs/traces/metrics)
+  and Error Tracking products, plus a documentation search tool and team administration. It is the widest
+  agent surface Better Stack publishes — considerably wider than the REST surface this repo holds a contract
+  for.
 deployment:
   mode: remote
   endpoint: https://mcp.betterstack.com
   auth: oauth
   verified: probed
-  note: >-
-    Remote HTTP transport. OAuth is the documented default; a static Better Stack API token
-    may be passed instead as `Authorization: Bearer $TOKEN`. Clients without remote-HTTP
-    support are told to wrap it with the third-party `npx -y mcp-remote https://mcp.betterstack.com`
-    proxy — that is a PROXY around the same remote endpoint, not a Better Stack stdio
-    package, so mode stays `remote` and no `install:`/`package:` is recorded.
+  note: 'Remote HTTP transport. OAuth is the documented default; a static Better Stack API token may be
+    passed instead as `Authorization: Bearer $TOKEN`. Clients without remote-HTTP support are told to
+    wrap it with the third-party `npx -y mcp-remote https://mcp.betterstack.com` proxy — that is a PROXY
+    around the same remote endpoint, not a Better Stack stdio package, so mode stays `remote` and no `install:`/`package:`
+    is recorded.'
+  probe_prior: (never probed)
+  probe: gated
+  probe_why: RFC 9728 challenge on the MCP path only
+  checked: '2026-09-11'
+  source: claimed-backlog re-probe 2026-09-11
 x-evidence:
   fetched: '2026-09-04'
   probes:
@@ -39,8 +42,8 @@ x-evidence:
     method: POST
     http_status: 401
     response: '{"error":"invalid_token"}'
-    note: second live MCP-shaped endpoint on the apex host; the documented endpoint is
-      mcp.betterstack.com, so this is recorded as observed but not advertised
+    note: second live MCP-shaped endpoint on the apex host; the documented endpoint is mcp.betterstack.com,
+      so this is recorded as observed but not advertised
 oauth:
   resource: https://mcp.betterstack.com
   resource_name: Better Stack MCP Server
@@ -51,22 +54,22 @@ oauth:
   token_endpoint: https://betterstack.com/oauth/token
   registration_endpoint: https://betterstack.com/oauth/register
   dynamic_client_registration: true
-  grant_types_supported: [authorization_code, refresh_token]
-  code_challenge_methods_supported: [S256]
-  token_endpoint_auth_methods_supported: [none]
-  scopes_supported: [read, write]
-  bearer_methods_supported: [header]
+  grant_types_supported:
+  - authorization_code
+  - refresh_token
+  code_challenge_methods_supported:
+  - S256
+  token_endpoint_auth_methods_supported:
+  - none
+  scopes_supported:
+  - read
+  - write
+  bearer_methods_supported:
+  - header
 install:
   claude_code: claude mcp add betterstack --transport http https://mcp.betterstack.com
-  client_config: |
-    {
-      "mcpServers": {
-        "betterstack": {
-          "type": "http",
-          "url": "https://mcp.betterstack.com"
-        }
-      }
-    }
+  client_config: "{\n  \"mcpServers\": {\n    \"betterstack\": {\n      \"type\": \"http\",\n      \"\
+    url\": \"https://mcp.betterstack.com\"\n    }\n  }\n}\n"
   proxy_fallback: 'npx -y mcp-remote https://mcp.betterstack.com --header "Authorization: Bearer ${BETTERSTACK_API_TOKEN}"'
 governance:
   tool_filtering:
@@ -74,19 +77,17 @@ governance:
     headers:
     - name: X-MCP-Tools-Only
       effect: allowlist — only the named tools are exposed
-      example: 'monitors,monitor,incidents'
+      example: monitors,monitor,incidents
     - name: X-MCP-Tools-Except
       effect: blocklist — every tool except the named ones is exposed
-      example: 'remove_dashboard,remove_chart'
-    note: >-
-      Header-level tool filtering is a genuine agent-governance control and is rare in this
-      catalog; it is what lets an operator hand an agent a read-only Better Stack.
-tools_note: >-
-  The live tools/list is auth-gated (401 unauthorized), so machine tool SLUGS and inputSchemas
-  could not be introspected anonymously. The list below is the provider's own published tool
-  catalog from the MCP docs page, recorded with the display names Better Stack uses. The only
-  machine slugs Better Stack publishes are the header examples above: monitors, monitor,
-  incidents, remove_dashboard, remove_chart. Schemas need authenticated introspection.
+      example: remove_dashboard,remove_chart
+    note: Header-level tool filtering is a genuine agent-governance control and is rare in this catalog;
+      it is what lets an operator hand an agent a read-only Better Stack.
+tools_note: 'The live tools/list is auth-gated (401 unauthorized), so machine tool SLUGS and inputSchemas
+  could not be introspected anonymously. The list below is the provider''s own published tool catalog
+  from the MCP docs page, recorded with the display names Better Stack uses. The only machine slugs Better
+  Stack publishes are the header examples above: monitors, monitor, incidents, remove_dashboard, remove_chart.
+  Schemas need authenticated introspection.'
 tool_groups:
 - group: Documentation
   tools:
@@ -197,8 +198,8 @@ tool_groups:
 - group: Telemetry — query
   tools:
   - name: Execute query
-    description: Executes a ClickHouse SQL query against telemetry data — logs, spans, metrics,
-      exceptions and replays.
+    description: Executes a ClickHouse SQL query against telemetry data — logs, spans, metrics, exceptions
+      and replays.
   - name: Render chart
     description: Executes a ClickHouse SQL query and renders the result as a line, bar, or pie chart.
   - name: Get query instructions
@@ -208,8 +209,8 @@ tool_groups:
   - name: Get metric query instructions
     description: Instructions for building metrics queries.
   - name: Get errors query instructions
-    description: Documentation for querying error data, including the two-layer errors/exceptions
-      architecture, columns and query patterns.
+    description: Documentation for querying error data, including the two-layer errors/exceptions architecture,
+      columns and query patterns.
   - name: Get replays query instructions
     description: Instructions for querying session replay data.
   - name: Get dashboard query instructions
@@ -274,8 +275,7 @@ tool_groups:
   - name: Get chart alert details
     description: Shows an alert's configuration, SQL queries and current incident info.
   - name: Get chart alert instructions
-    description: Instructions for creating and configuring chart alerts, including alert types
-      and operators.
+    description: Instructions for creating and configuring chart alerts, including alert types and operators.
   - name: Create chart alert
     description: Creates a new alert on an existing chart — threshold, relative or anomaly type.
   - name: Configure chart alert
@@ -321,11 +321,11 @@ tool_groups:
 - group: Errors — triage
   tools:
   - name: List errors
-    description: Lists error patterns for an application with occurrence counts, affected users
-      and current state; filterable by state, release, environment or time range.
+    description: Lists error patterns for an application with occurrence counts, affected users and current
+      state; filterable by state, release, environment or time range.
   - name: Get error details
-    description: Type, message, call site, first occurrence and current state (unhandled,
-      unresolved, ignored, resolved, reoccurred).
+    description: Type, message, call site, first occurrence and current state (unhandled, unresolved,
+      ignored, resolved, reoccurred).
   - name: Update error state
     description: Marks errors resolved, ignored or unresolved, with optional notification settings.
 - group: Team management
@@ -350,10 +350,9 @@ client_plugins:
   repository: https://github.com/BetterStackHQ/codex-plugin
 - client: Cursor
   repository: https://github.com/BetterStackHQ/cursor-plugin
-plugins_note: >-
-  Better Stack maintains a first-party plugin repository per agent client (Claude Code, Codex,
-  Cursor). Each is a thin wrapper that registers the same https://mcp.betterstack.com remote
-  endpoint — they are distribution, not additional surface, and none of them is a stdio server.
+plugins_note: Better Stack maintains a first-party plugin repository per agent client (Claude Code, Codex,
+  Cursor). Each is a thin wrapper that registers the same https://mcp.betterstack.com remote endpoint
+  — they are distribution, not additional surface, and none of them is a stdio server.
 coverage:
   documented_tools: 106
   groups: 16
