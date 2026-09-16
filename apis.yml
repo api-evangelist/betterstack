@@ -47,6 +47,17 @@ tags:
   - On-Call
   - Error Tracking
   - OpenTelemetry
+  - MCP
+tags_raw:
+  - Observability
+  - Uptime Monitoring
+  - Incidents
+  - Logs
+  - Monitoring
+  - Status Pages
+  - On-Call
+  - Error Tracking
+  - OpenTelemetry
   - Model Context Protocol
 url: >-
   https://raw.githubusercontent.com/api-evangelist/betterstack/refs/heads/main/apis.yml
