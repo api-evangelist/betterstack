@@ -1,10 +1,7 @@
 {
   "provider": "betterstack",
   "sources": [
-    "betterstack-heartbeats-api-openapi.yml",
-    "betterstack-incidents-api-openapi.yml",
-    "betterstack-monitors-api-openapi.yml",
-    "betterstack-status-pages-api-openapi.yml"
+    "_original/betterstack-openapi.yml"
   ],
   "outputs": [
     "betterstack-heartbeats-api-openapi.yml",
@@ -16,11 +13,14 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "betterstack-heartbeats-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "betterstack-incidents-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "betterstack-monitors-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "betterstack-status-pages-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "betterstack-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "betterstack-heartbeats-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "betterstack-incidents-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "betterstack-monitors-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "betterstack-status-pages-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

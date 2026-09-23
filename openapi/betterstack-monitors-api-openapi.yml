@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Better Stack Uptime Heartbeats Monitors API
+  title: Better Stack Uptime Monitors API
   description: 'Programmatic access to Better Stack''s uptime monitoring, heartbeat monitoring,
 
     incident management, status pages, escalation policies, and on-call surfaces.
@@ -12,9 +12,7 @@ info:
 
     documentation and is not exhaustive. Refer to
 
-    https://betterstack.com/docs/uptime/api/ for authoritative reference.
-
-    '
+    https://betterstack.com/docs/uptime/api/ for authoritative reference.'
   version: 2.0.0
   contact:
     name: Better Stack
@@ -137,43 +135,7 @@ paths:
         '200':
           description: Availability summary.
 components:
-  parameters:
-    Page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-    Id:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: string
-    PerPage:
-      name: per_page
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 50
   schemas:
-    MonitorUpdate:
-      allOf:
-      - $ref: '#/components/schemas/MonitorCreate'
-    JsonApiResource:
-      type: object
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-        attributes:
-          type: object
-          additionalProperties: true
-        relationships:
-          type: object
-          additionalProperties: true
     MonitorCreate:
       type: object
       required:
@@ -263,6 +225,42 @@ components:
         pagination:
           type: object
           additionalProperties: true
+    MonitorUpdate:
+      allOf:
+      - $ref: '#/components/schemas/MonitorCreate'
+    JsonApiResource:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        attributes:
+          type: object
+          additionalProperties: true
+        relationships:
+          type: object
+          additionalProperties: true
+  parameters:
+    PerPage:
+      name: per_page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 50
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

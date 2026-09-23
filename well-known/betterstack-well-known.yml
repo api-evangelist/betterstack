@@ -1,20 +1,24 @@
-generated: '2026-09-04'
+generated: '2026-09-19'
 method: probed
-source: live HTTPS probes of every host in apis.yml, every OpenAPI servers[] host, the docs
-  host, the three API hosts named by Better Stack's own /.well-known/api-catalog, and the
-  MCP host named by the WWW-Authenticate resource_metadata challenge.
+source: live HTTPS probes of every host in apis.yml, every OpenAPI servers[] host, the docs host, the
+  three API hosts named by Better Stack's own /.well-known/api-catalog, and the MCP host named by the
+  WWW-Authenticate resource_metadata challenge.
 provider: Better Stack
 providerId: betterstack
-note: >-
-  Better Stack serves three real discovery documents. /.well-known/api-catalog (RFC 9727)
-  on betterstack.com is a linkset naming three API surfaces — uptime v2, telemetry v1 and
-  errors v1 — each with a service-doc link. /.well-known/oauth-authorization-server
-  (RFC 8414) on the same host advertises an OAuth 2.1 authorization server with dynamic
-  client registration, PKCE S256 and read/write scopes; it is the authorization server for
-  the Better Stack MCP server. mcp.betterstack.com serves /.well-known/oauth-protected-resource
-  (RFC 9728), discovered from the WWW-Authenticate challenge on a tools/list POST.
-  status.betterstack.com is an SPA catch-all that answers 200 with an HTML shell for EVERY
-  /.well-known/* path; those are recorded as html-shell misses, not documents.
+note: 'Better Stack serves three real discovery documents. /.well-known/api-catalog (RFC 9727) on betterstack.com
+  is a linkset naming three API surfaces — uptime v2, telemetry v1 and errors v1 — each with a service-doc
+  link. /.well-known/oauth-authorization-server (RFC 8414) on the same host advertises an OAuth 2.1 authorization
+  server with dynamic client registration, PKCE S256 and read/write scopes; it is the authorization server
+  for the Better Stack MCP server. mcp.betterstack.com serves /.well-known/oauth-protected-resource (RFC
+  9728), discovered from the WWW-Authenticate challenge on a tools/list POST. status.betterstack.com is
+  an SPA catch-all that answers 200 with an HTML shell for EVERY /.well-known/* path; those are recorded
+  as html-shell misses, not documents.
+
+
+  MCP-host OAuth discovery added 2026-09-19 (roadmap#321/#337): the harvest visits a provider''s primary
+  hosts, and RFC 9728 protected-resource metadata lives on the MCP host, so these documents existed and
+  were invisible to the scorer. Fetched live and validated on `resource`/`issuer`; one negative control
+  per host.'
 hosts:
 - host: betterstack.com
   documents:
@@ -38,6 +42,11 @@ hosts:
     status: 404
   - path: /.well-known/agent.json
     status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: betterstack-betterstack-oauth-authorization-server.json
+    bytes: 451
+  path_echo_control: passed
 - host: www.betterstack.com
   documents:
   - path: /.well-known/api-catalog
@@ -69,6 +78,7 @@ hosts:
     note: redirects; the authoritative document is on betterstack.com
   - path: /.well-known/security.txt
     status: 404
+  path_echo_control: passed
 - host: uptime.betterstack.com
   documents:
   - path: /.well-known/security.txt
@@ -128,8 +138,8 @@ hosts:
   - path: /.well-known/security.txt
     status: 200
     content_type: text/html
-    note: html-shell — SPA catch-all returns the same 496KB status-page HTML for every path;
-      not a document, treated as a miss
+    note: html-shell — SPA catch-all returns the same 496KB status-page HTML for every path; not a document,
+      treated as a miss
   - path: /.well-known/openid-configuration
     status: 200
     content_type: text/html
@@ -154,3 +164,15 @@ hosts:
     status: 200
     content_type: text/html
     note: html-shell — see above; NOT an agent card
+x-mcp-probe:
+  probed: '2026-09-19'
+  issue: roadmap#321, roadmap#337
+  documents:
+  - host: https://mcp.betterstack.com
+    path: /.well-known/oauth-protected-resource
+    file: betterstack-mcp-oauth-protected-resource.json
+  - host: https://betterstack.com
+    path: /.well-known/oauth-authorization-server
+    file: betterstack-betterstack-oauth-authorization-server.json
+  validated_on: resource (RFC 9728) / issuer (RFC 8414, OIDC)
+  negative_control: one per host; a 2xx JSON object at an impossible path discards the host
