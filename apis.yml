@@ -168,6 +168,8 @@ apis:
   - type: APIReference
     url: https://betterstack.com/docs/errors/api
 common:
+  - type: VendorFacets
+    url: vendor-facets/betterstack-vendor-facets.yml
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/better-stack/overview
   - type: SpectralRules
