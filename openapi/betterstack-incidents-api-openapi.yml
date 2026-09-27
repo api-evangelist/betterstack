@@ -145,6 +145,12 @@ paths:
           description: Escalated.
 components:
   parameters:
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
     Id:
       name: id
       in: path
@@ -158,12 +164,6 @@ components:
         type: integer
         minimum: 1
         maximum: 50
-    Page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        minimum: 1
   schemas:
     IncidentCreate:
       type: object

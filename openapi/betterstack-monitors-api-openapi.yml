@@ -136,6 +136,37 @@ paths:
           description: Availability summary.
 components:
   schemas:
+    MonitorUpdate:
+      allOf:
+      - $ref: '#/components/schemas/MonitorCreate'
+    MonitorResource:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/JsonApiResource'
+    MonitorList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/JsonApiResource'
+        pagination:
+          type: object
+          additionalProperties: true
+    JsonApiResource:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        attributes:
+          type: object
+          additionalProperties: true
+        relationships:
+          type: object
+          additionalProperties: true
     MonitorCreate:
       type: object
       required:
@@ -210,38 +241,13 @@ components:
           type: array
           items:
             type: integer
-    MonitorResource:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/JsonApiResource'
-    MonitorList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/JsonApiResource'
-        pagination:
-          type: object
-          additionalProperties: true
-    MonitorUpdate:
-      allOf:
-      - $ref: '#/components/schemas/MonitorCreate'
-    JsonApiResource:
-      type: object
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-        attributes:
-          type: object
-          additionalProperties: true
-        relationships:
-          type: object
-          additionalProperties: true
   parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
     PerPage:
       name: per_page
       in: query
@@ -255,12 +261,6 @@ components:
       schema:
         type: integer
         minimum: 1
-    Id:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: string
   securitySchemes:
     bearerAuth:
       type: http
