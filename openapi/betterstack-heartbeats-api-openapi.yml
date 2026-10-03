@@ -100,6 +100,26 @@ paths:
         '200':
           description: Availability summary.
 components:
+  parameters:
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    PerPage:
+      name: per_page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 50
   schemas:
     HeartbeatCreate:
       type: object
@@ -129,26 +149,6 @@ components:
           type: boolean
         policy_id:
           type: string
-  parameters:
-    Page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-    Id:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: string
-    PerPage:
-      name: per_page
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 50
   securitySchemes:
     bearerAuth:
       type: http
