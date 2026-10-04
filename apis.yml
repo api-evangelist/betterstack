@@ -168,6 +168,9 @@ apis:
   - type: APIReference
     url: https://betterstack.com/docs/errors/api
 common:
+  - type: CapabilityMap
+    url: capabilities/betterstack-capability-edges.yml
+    name: Better Stack Business Capability Map
   - type: VendorFacets
     url: vendor-facets/betterstack-vendor-facets.yml
   - type: PostmanWorkspace
