@@ -135,58 +135,7 @@ paths:
         '200':
           description: Availability summary.
 components:
-  parameters:
-    PerPage:
-      name: per_page
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 50
-    Page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-    Id:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: string
   schemas:
-    MonitorList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/JsonApiResource'
-        pagination:
-          type: object
-          additionalProperties: true
-    MonitorResource:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/JsonApiResource'
-    JsonApiResource:
-      type: object
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-        attributes:
-          type: object
-          additionalProperties: true
-        relationships:
-          type: object
-          additionalProperties: true
-    MonitorUpdate:
-      allOf:
-      - $ref: '#/components/schemas/MonitorCreate'
     MonitorCreate:
       type: object
       required:
@@ -261,6 +210,57 @@ components:
           type: array
           items:
             type: integer
+    MonitorList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/JsonApiResource'
+        pagination:
+          type: object
+          additionalProperties: true
+    MonitorResource:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/JsonApiResource'
+    JsonApiResource:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        attributes:
+          type: object
+          additionalProperties: true
+        relationships:
+          type: object
+          additionalProperties: true
+    MonitorUpdate:
+      allOf:
+      - $ref: '#/components/schemas/MonitorCreate'
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+    PerPage:
+      name: per_page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 50
   securitySchemes:
     bearerAuth:
       type: http

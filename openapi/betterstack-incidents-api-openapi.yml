@@ -144,26 +144,6 @@ paths:
         '200':
           description: Escalated.
 components:
-  parameters:
-    Page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-    Id:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: string
-    PerPage:
-      name: per_page
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 50
   schemas:
     IncidentCreate:
       type: object
@@ -190,6 +170,26 @@ components:
           type: integer
         policy_id:
           type: string
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+    PerPage:
+      name: per_page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 50
   securitySchemes:
     bearerAuth:
       type: http
