@@ -357,3 +357,20 @@ coverage:
   documented_tools: 106
   groups: 16
   introspected: false
+rfc9728:
+  endpoint: https://mcp.betterstack.com
+  metadata_url: https://mcp.betterstack.com/.well-known/oauth-protected-resource
+  discovered_via: WWW-Authenticate resource_metadata on an anonymous POST initialize
+  fetched: '2026-09-25'
+  http_status: 200
+  content_type: application/json
+  document:
+    resource: https://mcp.betterstack.com
+    authorization_servers:
+    - https://betterstack.com
+    scopes_supported:
+    - read
+    - write
+    bearer_methods_supported:
+    - header
+    resource_name: Better Stack MCP Server

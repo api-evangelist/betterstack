@@ -191,3 +191,54 @@ overage:
   - metric: session replays
     price_range: [0.00150, 0.00525]
     unit: per replay beyond the 5,000 included
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - negotiated
+  - subscription
+  units: []
+  plans:
+  - name: Free
+    access: free
+    model: free
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Team member (Telemetry access)
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Responder (Uptime + Telemetry)
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Telemetry bundle — Nano
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Telemetry bundle — Micro
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Enterprise
+    access: enterprise
+    model: negotiated
+    model_how: derived
+    units: []
+    periods:
+    - month
