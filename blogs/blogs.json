@@ -2,13 +2,6 @@
   "repo": "betterstack",
   "feeds": [
     {
-      "source": "https://status.betterstack.com/",
-      "feed_url": "https://status.betterstack.com/feed",
-      "title": "",
-      "saved": 0,
-      "method": "discovered"
-    },
-    {
       "source": "https://betterstack.com/community/blog",
       "feed_url": "https://betterstack.com/community/blog",
       "title": "",
@@ -23,7 +16,7 @@
       "method": "feed"
     }
   ],
-  "fetched": "2026-10-03T12:30:02Z",
+  "fetched": "2026-10-10T13:15:00Z",
   "post_count": 25,
   "feed_nature": "undetermined",
   "feed_nature_basis": null,
