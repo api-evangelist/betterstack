@@ -107,12 +107,6 @@ components:
       required: true
       schema:
         type: string
-    Page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        minimum: 1
     PerPage:
       name: per_page
       in: query
@@ -120,6 +114,12 @@ components:
         type: integer
         minimum: 1
         maximum: 50
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
   schemas:
     StatusPageCreate:
       type: object

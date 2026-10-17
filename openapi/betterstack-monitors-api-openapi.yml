@@ -135,6 +135,26 @@ paths:
         '200':
           description: Availability summary.
 components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    PerPage:
+      name: per_page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 50
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
   schemas:
     MonitorCreate:
       type: object
@@ -210,21 +230,6 @@ components:
           type: array
           items:
             type: integer
-    MonitorList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/JsonApiResource'
-        pagination:
-          type: object
-          additionalProperties: true
-    MonitorResource:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/JsonApiResource'
     JsonApiResource:
       type: object
       properties:
@@ -238,29 +243,24 @@ components:
         relationships:
           type: object
           additionalProperties: true
+    MonitorResource:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/JsonApiResource'
     MonitorUpdate:
       allOf:
       - $ref: '#/components/schemas/MonitorCreate'
-  parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: string
-    Page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-    PerPage:
-      name: per_page
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 50
+    MonitorList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/JsonApiResource'
+        pagination:
+          type: object
+          additionalProperties: true
   securitySchemes:
     bearerAuth:
       type: http
