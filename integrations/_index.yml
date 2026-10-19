@@ -150,3 +150,43 @@
   relationship: platform-app
   status: not-a-workflow
   arazzo: null
+- slug: betterstack-nuget-gallery
+  label: NuGet Gallery
+  partner: nuget
+  partner_name: NuGet Gallery
+  category: official SDK (.NET)
+  type: register
+  channel: package-registry
+  evidence: https://www.nuget.org/packages/BetterStack.Logs.NLog
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: NuGet Gallery (public registry JSON)
+    spec_file: null
+    language: .NET
+    packages:
+    - name: BetterStack.Logs.NLog
+      version: 1.2.0
+      released: '2026-09-30'
+      released_field: published
+      lapsed: false
+      page: https://www.nuget.org/packages/BetterStack.Logs.NLog
+      repo_leg: domain:betterstack.com
+      publisher_leg: org:better_stack
+      matched_by: domain+name-among-holders
+    - name: BetterStack.Logs.Serilog
+      version: 1.4.0
+      released: '2026-09-30'
+      released_field: published
+      lapsed: false
+      page: https://www.nuget.org/packages/BetterStack.Logs.Serilog
+      repo_leg: domain:betterstack.com
+      publisher_leg: org:better_stack
+      matched_by: domain+name-among-holders
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
