@@ -27,45 +27,6 @@
     detected: '2026-10-13'
   status: not-a-workflow
   arazzo: null
-- slug: betterstack-microsoft-teams-own
-  label: Microsoft Teams (own)
-  partner: microsoft-teams
-  partner_name: Microsoft Teams (own)
-  category: Microsoft Teams app
-  type: marketplace
-  marketplace: own
-  channel: partner-built
-  evidence: https://appsource.microsoft.com/en-us/product/office/WA200005263
-  source: edge
-  relationship: platform-app
-  status: not-a-workflow
-  arazzo: null
-- slug: betterstack-slack-own
-  label: Slack (own)
-  partner: slack
-  partner_name: Slack (own)
-  category: Slack app
-  type: marketplace
-  marketplace: own
-  channel: partner-built
-  evidence: https://slack.com/marketplace/AUFCR7FNY-better-stack
-  source: edge
-  relationship: platform-app
-  status: not-a-workflow
-  arazzo: null
-- slug: betterstack-zoom-own
-  label: Zoom (own)
-  partner: zoom
-  partner_name: Zoom (own)
-  category: Zoom app
-  type: marketplace
-  marketplace: own
-  channel: partner-built
-  evidence: https://marketplace.zoom.us/apps/4d_tfXrMT0i2DwRxXvFYGA
-  source: edge
-  relationship: platform-app
-  status: not-a-workflow
-  arazzo: null
 - slug: betterstack-nuget-gallery
   label: NuGet Gallery
   partner: nuget
@@ -188,5 +149,70 @@
     actions: true
     sources: false
     builder: Pipedream repo (component)
+  status: not-a-workflow
+  arazzo: null
+- slug: betterstack-microsoft-teams-own
+  label: Microsoft Teams (own)
+  partner: microsoft-teams
+  partner_name: Microsoft Teams (own)
+  category: Microsoft Teams app
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://appsource.microsoft.com/en-us/product/office/WA200005263
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
+- slug: betterstack-slack-own
+  label: Slack (own)
+  partner: slack
+  partner_name: Slack (own)
+  category: Slack app
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://slack.com/marketplace/AUFCR7FNY-better-stack
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
+- slug: betterstack-zoom-own
+  label: Zoom (own)
+  partner: zoom
+  partner_name: Zoom (own)
+  category: Zoom app
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://marketplace.zoom.us/apps/4d_tfXrMT0i2DwRxXvFYGA
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
+- slug: betterstack-opentofu-opentofu-registry
+  label: OpenTofu (opentofu-registry)
+  partner: opentofu
+  partner_name: OpenTofu (opentofu-registry)
+  category: infrastructure-as-code provider registry listing
+  type: marketplace
+  marketplace: opentofu-registry
+  channel: partner-built
+  evidence: https://search.opentofu.org/provider/betterstackhq/better-uptime
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
+- slug: betterstack-terraform-terraform-registry
+  label: Terraform (terraform-registry)
+  partner: terraform
+  partner_name: Terraform (terraform-registry)
+  category: infrastructure-as-code provider registry listing
+  type: marketplace
+  marketplace: terraform-registry
+  channel: partner-built
+  evidence: https://registry.terraform.io/providers/BetterStackHQ/better-uptime
+  source: edge
+  relationship: platform-app
   status: not-a-workflow
   arazzo: null
