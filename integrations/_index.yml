@@ -216,3 +216,16 @@
   relationship: platform-app
   status: not-a-workflow
   arazzo: null
+- slug: betterstack-atlassian-own
+  label: Atlassian (own)
+  partner: atlassian
+  partner_name: Atlassian (own)
+  category: Atlassian Marketplace app
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://marketplace.atlassian.com/vendors/278252981/better-stack-inc
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
