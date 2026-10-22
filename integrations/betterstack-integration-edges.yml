@@ -23,6 +23,7 @@ checked:
 - terraform/integrations/terraform-integration-edges.yml
 - atlassian/integrations/atlassian-integration-edges.yml
 - digital-ocean/integrations/digital-ocean-integration-edges.yml
+- vercel/integrations/vercel-integration-edges.yml
 marketplace_apps: []
 edges:
 - partner_name: OpenTelemetry
@@ -295,6 +296,24 @@ edges:
   detected: '2026-10-21'
   detected_by: mirror-platform-listings.py
   category: Monitoring
+- partner_name: Vercel (own)
+  partner: vercel
+  partner_match: mirror
+  mirror_match: domain+name-among-holders
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://vercel.com/marketplace/betterstack
+  mirror_of: vercel/integrations/vercel-integration-edges.yml
+  apps:
+  - Better Stack - formerly Logtail
+  listing_count: 1
+  detected: '2026-10-22'
+  detected_by: mirror-platform-listings.py
+  category: Vercel Marketplace
+  partner_tier: connectable-account
 source:
 - https://github.com/open-telemetry/opentelemetry.io/blob/main/data/ecosystem/vendors.yaml
 - https://github.com/open-telemetry/opentelemetry.io/blob/main/data/registry/
