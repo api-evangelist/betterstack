@@ -307,3 +307,16 @@
   relationship: platform-app
   status: not-a-workflow
   arazzo: null
+- slug: betterstack-intercom-own
+  label: Intercom (own)
+  partner: intercom
+  partner_name: Intercom (own)
+  category: Issue tracking & Ticketing
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://www.intercom.com/app-store/?app_package_code=betterstack-status-pages
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
