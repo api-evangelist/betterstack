@@ -1,4 +1,4 @@
-# Better Stack (betterstack)
+# Better Stack
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,68 +64,170 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Better Stack is a comprehensive infrastructure monitoring and observability platform combining uptime monitoring, log management, incident management, status pages, and AI-powered site reliability tools. This is an alias entry for the better-stack repository. See https://github.com/api-evangelist/better-stack for the full API profile with OpenAPI specs, capabilities, and vocabulary.
+Better Stack is an infrastructure monitoring and observability platform that combines uptime monitoring, heartbeat monitoring for scheduled jobs, incident management with on-call paging and escalation policies, public and private status pages, log/trace/metric telemetry queried with ClickHouse SQL, error tracking with session replay, and an AI SRE for automated root cause analysis. It is OpenTelemetry-native on ingestion — OTLP/HTTP endpoints for logs, traces and metrics — and publishes three REST management surfaces (Uptime v2, Telemetry v1, Errors v1) declared in its own RFC 9727 /.well-known/api-catalog, alongside a first-party remote MCP server at mcp.betterstack.com exposing roughly 106 agent tools behind OAuth 2.1.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/betterstack/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/betterstack/refs/heads/main/apis.yml)
+**Areas:** Observability · Uptime Monitoring · Incidents · Logs · Monitoring · Status Pages · On-Call · Error Tracking · OpenTelemetry · MCP
 
-## Scope
+## Better Stack on APIs.io
 
-- **Type:** Index
+Everything profiled for Better Stack is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/betterstack/](https://apis.io/providers/betterstack/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (6)
 
-- Observability
-- Uptime Monitoring
-- Incidents
-- Logs
-- Monitoring
-- Status Pages
-- On-Call
+- [Better Stack Heartbeats API](https://apis.io/apis/betterstack/betterstack-heartbeats-api/) — The Heartbeats API from Better Stack — create and manage heartbeat monitors that alert when a cron job or background task stops reporting.
+- [Better Stack Incidents API](https://apis.io/apis/betterstack/betterstack-incidents-api/) — The Incidents API from Better Stack — create, acknowledge, escalate, resolve and reopen incidents, and read the incident timeline.
+- [Better Stack Monitors API](https://apis.io/apis/betterstack/betterstack-monitors-api/) — The Monitors API from Better Stack — create and manage uptime monitors and read their availability and response-time series.
+- [Better Stack Status Pages API](https://apis.io/apis/betterstack/betterstack-status-pages-api/) — The Status Pages API from Better Stack — create and manage public and private status pages and the resources shown on them.
+- [Better Stack Telemetry API](https://apis.io/apis/betterstack/betterstack-telemetry-api/) — The Telemetry API from Better Stack — manage log, trace and metric sources, fields, metric expressions, dashboards, charts and chart alerts. Declared by…
+- [Better Stack Errors API](https://apis.io/apis/betterstack/betterstack-errors-api/) — The Errors API from Better Stack — manage error-tracking applications, application groups and releases, and triage error patterns and exceptions. Declared…
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-03-25
-- **Modified:** 2026-04-19
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### AsyncAPI (1)
 
-### Better Stack API
+Event-driven and webhook contracts.
 
-The Better Stack API provides programmatic access to uptime monitoring, heartbeat monitoring, incident management, status pages, escalation policies, and team management. It follows the JSON:API specification and uses Bearer token authentication.
+- [Betterstack Webhooks](https://apis.io/asyncapis/betterstack/betterstack-webhooks/)
 
-- **Human URL:** [https://betterstack.com/docs/uptime/api/getting-started/](https://betterstack.com/docs/uptime/api/getting-started/)
-- **Base URL:** `https://uptime.betterstack.com/api/v2`
+#### MCP servers (1)
 
-#### Tags
+Model Context Protocol servers that expose the API to agents.
 
-- Monitoring
-- Incidents
-- Uptime
-- Heartbeats
-- Status Pages
+- [Better Stack MCP Server](https://apis.io/servers/betterstack/better-stack-mcp-server/)
 
-#### Properties
+#### Agentic access (1)
 
-- [Documentation](https://betterstack.com/docs/uptime/api/getting-started/)
-- [API Reference](https://betterstack.com/docs/uptime/api/monitors/)
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/better-stack/refs/heads/main/openapi/better-stack-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/betterstack.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/betterstack.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Which operations an agent can call, which act, and which need a human in the loop.
 
-## Common Properties
+- [Betterstack Agentic Access](https://apis.io/agentic-access/betterstack/betterstack-agentic-access/)
 
-- [LinkedIn](https://www.linkedin.com/company/betterstack)
-- [Portal](https://betterstack.com/docs/)
-- [Getting Started](https://betterstack.com/docs/uptime/api/getting-started/)
+#### Collections (5)
+
+Postman and Open Collection request collections.
+
+- [Better Stack Uptime API](https://apis.io/collections/betterstack/open-betterstack/)
+- [Better Stack Uptime Heartbeats API](https://apis.io/collections/betterstack/open-betterstack-heartbeats-api/)
+- [Better Stack Uptime Heartbeats Incidents API](https://apis.io/collections/betterstack/open-betterstack-incidents-api/)
+- [Better Stack Uptime Heartbeats Monitors API](https://apis.io/collections/betterstack/open-betterstack-monitors-api/)
+- [Better Stack Uptime Heartbeats Status Pages API](https://apis.io/collections/betterstack/open-betterstack-status-pages-api/)
+
+#### Overlays (8)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Betterstack Heartbeats Api Phrasing Overlay](https://apis.io/overlays/betterstack/betterstack-heartbeats-api-phrasing-overlay/)
+- [Betterstack Heartbeats Overlay](https://apis.io/overlays/betterstack/betterstack-heartbeats-overlay/)
+- [Betterstack Incidents Api Phrasing Overlay](https://apis.io/overlays/betterstack/betterstack-incidents-api-phrasing-overlay/)
+- [Betterstack Incidents Overlay](https://apis.io/overlays/betterstack/betterstack-incidents-overlay/)
+- [Betterstack Monitors Api Phrasing Overlay](https://apis.io/overlays/betterstack/betterstack-monitors-api-phrasing-overlay/)
+- [Betterstack Monitors Overlay](https://apis.io/overlays/betterstack/betterstack-monitors-overlay/)
+- [Betterstack Status Pages Api Phrasing Overlay](https://apis.io/overlays/betterstack/betterstack-status-pages-api-phrasing-overlay/)
+- [Betterstack Status Pages Overlay](https://apis.io/overlays/betterstack/betterstack-status-pages-overlay/)
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Betterstack Authentication](https://apis.io/security/betterstack/betterstack-authentication/)
+- [Betterstack Domain Security](https://apis.io/security/betterstack/betterstack-domain-security/)
+- [Betterstack Trust Center](https://apis.io/security/betterstack/betterstack-trust-center/)
+- [Betterstack Vulnerability Disclosure](https://apis.io/security/betterstack/betterstack-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Betterstack Scopes](https://apis.io/scopes/betterstack/betterstack-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Betterstack Plans Pricing](https://apis.io/plans/betterstack/betterstack-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Betterstack Rate Limits](https://apis.io/rate-limits/betterstack/betterstack-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Betterstack Finops](https://apis.io/finops/betterstack/betterstack-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://betterstack.com/)
+- [Documentation](https://betterstack.com/docs/)
+- [Getting started](https://betterstack.com/docs/uptime/api/getting-started-with-uptime-api/)
+- [API reference](https://betterstack.com/docs/uptime/api)
 - [Pricing](https://betterstack.com/pricing)
-- [Status Page](https://status.betterstack.com/)
-- [Blog](https://betterstack.com/community/blog)
+- [Sign up](https://betterstack.com/users/sign-up)
+- [Support](https://betterstack.com/help)
 - [Changelog](https://betterstack.com/tag/changelog)
-- [GitHub Organization](https://github.com/BetterStackHQ)
-- [Features](undefined)
-- [Integrations](undefined)
+- [Blog](https://betterstack.com/community/blog)
+- [Terms of service](https://betterstack.com/terms)
+- [Privacy policy](https://betterstack.com/privacy)
+- [GitHub](https://github.com/BetterStackHQ)
+- [Status](https://status.betterstack.com/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 67.0** — exemplar · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 56.6 |
+| Contract governance | 31.8 |
+| Operational transparency | 44.7 |
+| Developer ergonomics | 67.3 |
+| Access clarity | 92.1 |
+
+**Agent readiness 58.0** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | paginated |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 45.1** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/betterstack/](https://apis.io/providers/betterstack/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Better Stack: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/betterstack/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
