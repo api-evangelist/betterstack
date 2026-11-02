@@ -1,0 +1,456 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-28'
+method: searched
+source: https://betterstack.com/pricing
+sources:
+- https://betterstack.com/pricing
+provenance:
+  tool: engine/economics/harvest_pricing.py
+  run: 20261028T120612
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: tiered-subscription
+delivery:
+  delivery: managed+licensed
+  method: page
+  read: '2026-10-28'
+  evidence: Custom cluster deployment enterprise
+  managed_tier: Responder
+published: true
+note: Observability/incident-management platform pricing with free tier, per-responder licenses, telemetry
+  bundles, and usage-based add-ons; annual prices also shown (e.g. $29 responder). AI SRE is consumption-based
+  with 'per model prices in-app pricing'.
+plan_count: 28
+currency: USD
+plans:
+- name: Free for personal projects
+  price_text: $0 per month
+  price: 0
+  currency: USD
+  period: month
+  unit: account
+  included_quota: 10 monitors & heartbeats, 1 status page; Slack & e-mail alerts; 100,000 exceptions per
+    month; 5,000 session replays; 3 GB logs retained for 3 days; 3 GB traces retained for 3 days; 30 GB
+    metrics; 3 GB web events retained for 3 days
+- name: Unlimited team members
+  price_text: $0 per member per month
+  price: 0
+  currency: USD
+  period: month
+  unit: member
+  included_quota: Free access to Telemetry
+- name: Responder license (monthly)
+  price_text: $34
+  price: 34
+  currency: USD
+  period: month
+  unit: license
+  included_quota: Access to Incidents, including on-call, monitoring and status pages, with unlimited
+    phone call and SMS alerts
+- name: Responder license (annual)
+  price_text: $29
+  price: 29
+  currency: USD
+  period: month
+  unit: license
+  included_quota: Annual billing price per license per month
+- name: Slack & Teams incident management
+  price_text: $9 per responder license per month
+  price: 9
+  currency: USD
+  period: month
+  unit: responder license
+  included_quota: Channel-based & Thread-based workflows
+- name: Additional public status page
+  price_text: $15 per month
+  price: 15
+  currency: USD
+  period: month
+  unit: status page
+  included_quota: 1 status page included
+- name: White-label status page
+  price_text: $250 per page per month
+  price: 250
+  currency: USD
+  period: month
+  unit: page
+  included_quota: Removes "Powered by Better Stack" footer
+- name: Status page password authentication
+  price_text: $50 per page per month
+  price: 50
+  currency: USD
+  period: month
+  unit: page
+- name: Additional 1,000 subscribers
+  price_text: $40 per month
+  price: 40
+  currency: USD
+  period: month
+  unit: 1,000 subscribers
+  included_quota: 1,000 subscribers included
+- name: Call routing per phone number
+  price_text: $250 per month
+  price: 250
+  currency: USD
+  period: month
+  unit: phone number
+- name: Telemetry Bundle Nano
+  price_text: $30 6% OFF
+  price: 30
+  currency: USD
+  period: month
+  unit: bundle
+  included_quota: 40 GB Traces, 40 GB Logs, 40 GB Metrics
+- name: Telemetry Bundle Micro
+  price_text: $120 6% OFF
+  price: 120
+  currency: USD
+  period: month
+  unit: bundle
+  included_quota: 160 GB Traces, 160 GB Logs, 160 GB Metrics
+- name: Telemetry Bundle Mega
+  price_text: $250 8% OFF
+  price: 250
+  currency: USD
+  period: month
+  unit: bundle
+  included_quota: 340 GB Traces, 340 GB Logs, 340 GB Metrics
+- name: Telemetry Bundle Tera
+  price_text: $500 11% OFF
+  price: 500
+  currency: USD
+  period: month
+  unit: bundle
+  included_quota: 700 GB Traces, 700 GB Logs, 700 GB Metrics
+- name: Logs & Traces ingestion
+  price_text: $0.15 per GB
+  price: 0.15
+  currency: USD
+  period: per-use
+  unit: GB
+  included_quota: 3 GB per month retained for 3 days
+  overage: $0.15 per GB
+- name: Logs & Traces retention
+  price_text: $0.08 per GB per month
+  price: 0.08
+  currency: USD
+  period: month
+  unit: GB
+- name: Query boost
+  price_text: $0.001 per GB scanned
+  price: 0.001
+  currency: USD
+  period: per-use
+  unit: GB scanned
+- name: Ingestion via AWS Direct Connect
+  price_text: $0.04 per GB
+  price: 0.04
+  currency: USD
+  period: per-use
+  unit: GB
+- name: Metrics retention
+  price_text: $0.75 per GB per month
+  price: 0.75
+  currency: USD
+  period: month
+  unit: GB
+  included_quota: 30 GB included
+- name: Error tracking additional exceptions
+  price_text: $0.000075 per exception
+  price: 7.5e-05
+  currency: USD
+  period: per-use
+  unit: exception
+  included_quota: 100,000 exceptions
+  overage: $0.000075 per exception
+- name: Additional session replays
+  price_text: $0.00225 per session replay
+  price: 0.00225
+  currency: USD
+  period: per-use
+  unit: session replay
+  included_quota: 5,000 session replays
+- name: Additional 50 monitors
+  price_text: $25 per month
+  price: 25
+  currency: USD
+  period: month
+  unit: 50 monitors
+  included_quota: 10 monitors included
+- name: Transaction monitoring (Playwright)
+  price_text: 100 Playwright minutes $1
+  price: 1
+  currency: USD
+  period: per-use
+  unit: 100 Playwright minutes
+- name: Additional 10 heartbeats
+  price_text: $20 per month
+  price: 20
+  currency: USD
+  period: month
+  unit: 10 heartbeats
+  included_quota: 10 heartbeats included
+- name: Reporting & analytics
+  price_text: $5 per member per month
+  price: 5
+  currency: USD
+  period: month
+  unit: member
+- name: Single Sign-On with Azure/Okta
+  price_text: $5 per user per month
+  price: 5
+  currency: USD
+  period: month
+  unit: user
+  included_quota: SSO with Google included
+- name: Audit logs
+  price_text: $250 per month
+  price: 250
+  currency: USD
+  period: month
+  unit: account
+- name: Enterprise-ready
+  price_text: Get a quote over e-mail
+  period: none
+  included_quota: Custom quote, generic SAML SSO, custom VPC deployment, custom data residency
+rate_limit_statements:
+- Up to 30 seconds check frequency
+- Up to 1 second check resolution
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models:
+  - free
+  - hybrid
+  - metered
+  - seat
+  - subscription
+  units:
+  - compute
+  - data
+  - object
+  - seat
+  plans:
+  - name: Free for personal projects
+    access: other
+    model: metered
+    model_how: derived
+    units:
+    - object
+    periods:
+    - month
+  - name: Unlimited team members
+    access: other
+    model: free
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Responder license (monthly)
+    access: other
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Responder license (annual)
+    access: other
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Slack & Teams incident management
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Additional public status page
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: White-label status page
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - object
+    periods:
+    - month
+  - name: Status page password authentication
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - object
+    periods:
+    - month
+  - name: Additional 1,000 subscribers
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Call routing per phone number
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Telemetry Bundle Nano
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Telemetry Bundle Micro
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Telemetry Bundle Mega
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Telemetry Bundle Tera
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Logs & Traces ingestion
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - data
+    periods:
+    - other
+  - name: Logs & Traces retention
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - data
+    periods:
+    - month
+  - name: Query boost
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - data
+    periods:
+    - other
+  - name: Ingestion via AWS Direct Connect
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - data
+    periods:
+    - other
+  - name: Metrics retention
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - data
+    periods:
+    - month
+  - name: Error tracking additional exceptions
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - other
+    periods:
+    - other
+  - name: Additional session replays
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - other
+  - name: Additional 50 monitors
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Transaction monitoring (Playwright)
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - other
+  - name: Additional 10 heartbeats
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Reporting & analytics
+    access: other
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Single Sign-On with Azure/Okta
+    access: other
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Audit logs
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - object
+    periods:
+    - month
+  - name: Enterprise-ready
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
