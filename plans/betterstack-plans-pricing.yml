@@ -217,7 +217,7 @@ rate_limit_statements:
 - Up to 30 seconds check frequency
 - Up to 1 second check resolution
 x-canonical:
-  generated: '2026-11-01'
+  generated: '2026-11-02'
   vocabulary: engine/economics/plans-canonical.yml
   models:
   - free
