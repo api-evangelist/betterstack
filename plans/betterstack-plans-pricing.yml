@@ -217,7 +217,7 @@ rate_limit_statements:
 - Up to 30 seconds check frequency
 - Up to 1 second check resolution
 x-canonical:
-  generated: '2026-11-02'
+  generated: '2026-11-06'
   vocabulary: engine/economics/plans-canonical.yml
   models:
   - free
@@ -229,6 +229,7 @@ x-canonical:
   - compute
   - data
   - object
+  - period
   - seat
   plans:
   - name: Free for personal projects
@@ -268,7 +269,7 @@ x-canonical:
     model: subscription
     model_how: derived
     units:
-    - other
+    - period
     periods:
     - month
   - name: Additional public status page
